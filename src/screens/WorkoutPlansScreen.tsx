@@ -1,32 +1,32 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Screen } from '../components/common/Screen';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { PredefinedWorkoutsScreen } from './workouts/PredefinedWorkoutsScreen';
+import { IndividualWorkoutsScreen } from './workouts/IndividualWorkoutsScreen';
 import { Theme } from '../theme';
+
+const Tab = createMaterialTopTabNavigator();
 
 export const WorkoutPlansScreen = () => {
   return (
-    <Screen>
-      <View style={styles.container}>
-        <Text style={styles.title}>Workout Plans</Text>
-        <Text style={styles.subtitle}>Your custom routines will appear here.</Text>
-      </View>
-    </Screen>
+    <Tab.Navigator
+        screenOptions={{
+            tabBarStyle: { backgroundColor: Theme.colors.background },
+            tabBarLabelStyle: { fontWeight: 'bold' },
+            tabBarIndicatorStyle: { backgroundColor: Theme.colors.primary },
+            tabBarActiveTintColor: Theme.colors.primary,
+            tabBarInactiveTintColor: Theme.colors.gray[500],
+        }}
+    >
+      <Tab.Screen 
+        name="Predefined" 
+        component={PredefinedWorkoutsScreen} 
+        options={{ title: 'Predefined' }}
+      />
+      <Tab.Screen 
+        name="Individual" 
+        component={IndividualWorkoutsScreen} 
+        options={{ title: 'Individual' }}
+      />
+    </Tab.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: Theme.spacing.m,
-  },
-  title: {
-    ...Theme.textVariants.header,
-    marginBottom: Theme.spacing.s,
-  },
-  subtitle: {
-    ...Theme.textVariants.body,
-    textAlign: 'center',
-  },
-});

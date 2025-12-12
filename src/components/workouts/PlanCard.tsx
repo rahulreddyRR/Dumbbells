@@ -8,11 +8,12 @@ const { width } = Dimensions.get('window');
 
 interface PlanCardProps {
   plan: WorkoutPlan;
+  onPress: () => void;
 }
 
-export const PlanCard: React.FC<PlanCardProps> = ({ plan }) => {
+export const PlanCard: React.FC<PlanCardProps> = ({ plan, onPress }) => {
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.9}>
+    <TouchableOpacity style={styles.container} activeOpacity={0.9} onPress={onPress}>
       <View style={styles.imageContainer}>
         {plan.image ? (
             <Image source={plan.image} style={styles.image} resizeMode="cover" />

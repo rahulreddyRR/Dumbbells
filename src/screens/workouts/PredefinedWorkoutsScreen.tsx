@@ -6,13 +6,24 @@ import { PlanCard } from '../../components/workouts/PlanCard';
 import { CreateCustomCard } from '../../components/workouts/CreateCustomCard';
 import { WORKOUT_PLANS } from '../../data/workoutPlans';
 
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../navigation/AppNavigator';
+
 export const PredefinedWorkoutsScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   return (
     <Screen>
       <FlatList
         data={WORKOUT_PLANS}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <PlanCard plan={item} />}
+        renderItem={({ item }) => (
+            <PlanCard 
+                plan={item} 
+                onPress={() => navigation.navigate('WorkoutDetails', { planId: item.id })}
+            />
+        )}
         contentContainerStyle={styles.listContent}
         ListHeaderComponent={
           <Text style={styles.headerTitle}>Choose Your Plan</Text>

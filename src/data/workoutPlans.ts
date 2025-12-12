@@ -107,24 +107,35 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
         {
             day: 1,
             title: 'Day 1',
+            stats: { calories: 265, weight: 4128, minutes: 45 },
             exercises: [
                 { id: '1', name: 'Bench Press', sets: '12 + 12 + 12', weight: '8 kg' },
-                { id: '2', name: 'Lying French Press', sets: '12 + 12 + 12', weight: '8 kg' },
-                { id: '3', name: 'Squats', sets: '10 + 10 + 10', weight: '8 kg' },
-                { id: '4', name: 'Triceps Kickback', sets: '12 + 12 + 12 + 12', weight: '8 kg' },
-                { id: '5', name: 'Alternate Bicep Curl', sets: '12 + 12 + 12', weight: '8 kg' },
-                { id: '6', name: 'One Arm Triceps Extension', sets: '12 + 12 + 12 + 12', weight: '8 kg' },
-                { id: '7', name: 'Calf Raise', sets: '15 + 15 + 15', weight: '8 kg' },
+                { id: '2', name: 'Bench Fly', sets: '12 + 12 + 12', weight: '8 kg' },
+                { id: '3', name: 'Lunges', sets: '12 + 12 + 12 + 12', weight: '8 kg' },
+                { id: '4', name: 'Bicep Curl', sets: '12 + 12 + 12', weight: '8 kg' },
+                { id: '5', name: 'Hammer Curl', sets: '12 + 12 + 12', weight: '8 kg' },
+                { id: '6', name: 'Squats', sets: '10 + 10 + 10', weight: '8 kg' },
+                { id: '7', name: 'French Press', sets: '12 + 12 + 12', weight: '8 kg' },
             ]
         },
         {
             day: 2,
             title: 'Day 2',
-            exercises: []
+            stats: { calories: 251, weight: 3600, minutes: 45 },
+            exercises: [
+                { id: '1', name: 'Overhead Press', sets: '12 + 12 + 12', weight: '8 kg' },
+                { id: '2', name: 'Bent-Over', sets: '12 + 12 + 12', weight: '8 kg' },
+                { id: '3', name: 'Lateral Raise', sets: '10 + 10 + 10', weight: '8 kg' },
+                { id: '4', name: 'Arnold Press', sets: '12 + 12', weight: '8 kg' },
+                { id: '5', name: 'Bench Bent-Over', sets: '12 + 12 + 12 + 12', weight: '8 kg' },
+                { id: '6', name: 'Front Raise', sets: '10 + 10 + 10', weight: '8 kg' },
+                { id: '7', name: 'Shrugs', sets: '15 + 15 + 15', weight: '8 kg' },
+            ]
         },
         {
             day: 3,
             title: 'Day 3',
+            stats: { calories: 277, weight: 3696, minutes: 50 },
             exercises: [
                 { id: '1', name: 'Bench Press', sets: '12 + 12 + 12', weight: '8 kg' },
                 { id: '2', name: 'Lying French Press', sets: '12 + 12 + 12', weight: '8 kg' },
@@ -152,8 +163,55 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     },
     schedule: [
         {
+            day: 1,
+            title: 'Chest',
+            stats: { calories: 172, weight: 3200, minutes: 30 },
+            exercises: [
+                { id: '1', name: 'Bench Press', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
+                { id: '2', name: 'Bench Fly', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
+                { id: '3', name: 'Pullover', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
+                { id: '4', name: 'Squeeze Press', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
+            ]
+        },
+        {
+            day: 2,
+            title: 'Back',
+            stats: { calories: 181, weight: 3380, minutes: 30 },
+            exercises: [
+                { id: '1', name: 'Reverse Fly', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
+                { id: '2', name: 'Bent-Over', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
+                { id: '3', name: 'Wide Row', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
+                { id: '4', name: 'Shrugs', sets: '15 + 12 + 12 + 10', weight: '10 kg' },
+            ]
+        },
+        {
+            day: 3,
+            title: 'Arms',
+            stats: { calories: 203, weight: 3440, minutes: 40 },
+            exercises: [
+                { id: '1', name: 'Bicep Curl', sets: '12 + 10 + 8', weight: '10 kg' },
+                { id: '2', name: 'Hammer Curl', sets: '12 + 10 + 8', weight: '10 kg' },
+                { id: '3', name: 'Lying Bicep Curl', sets: '12 + 10 + 8', weight: '10 kg' },
+                { id: '4', name: 'Triceps Kickback', sets: '12 + 12 + 10 + 10', weight: '10 kg' },
+                { id: '5', name: 'Lying French Press', sets: '12 + 10 + 8', weight: '10 kg' },
+                { id: '6', name: 'French Press', sets: '12 + 10 + 8', weight: '10 kg' },
+            ]
+        },
+        {
+            day: 4,
+            title: 'Shoulders',
+            stats: { calories: 172, weight: 3200, minutes: 30 },
+            exercises: [
+                { id: '1', name: 'Overhead Press', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
+                { id: '2', name: 'Lateral Raise', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
+                { id: '3', name: 'Arnold Press', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
+                { id: '4', name: 'Front Raise', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
+            ]
+        },
+        {
             day: 5,
-            title: 'Leg Day',
+            title: 'Legs',
+            stats: { calories: 186, weight: 3460, minutes: 30 },
             exercises: [
                 { id: '1', name: 'Deadlift', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
                 { id: '2', name: 'Lunges', sets: '12 + 12 + 10 + 10', weight: '10 kg' },

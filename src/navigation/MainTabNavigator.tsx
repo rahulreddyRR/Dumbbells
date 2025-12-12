@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { WorkoutPlansScreen } from '../screens/WorkoutPlansScreen';
 import { StatisticsScreen } from '../screens/StatisticsScreen';
 import { ProgressScreen } from '../screens/ProgressScreen';
@@ -18,7 +19,7 @@ const Tab = createBottomTabNavigator<MainTabParamList>();
 export const MainTabNavigator = () => {
   return (
     <Tab.Navigator
-        screenOptions={{
+        screenOptions={({ route }) => ({
             headerStyle: {
                 backgroundColor: Theme.colors.background,
             },
@@ -28,7 +29,23 @@ export const MainTabNavigator = () => {
             },
             tabBarActiveTintColor: Theme.colors.primary,
             tabBarInactiveTintColor: Theme.colors.gray[500],
-        }}
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
+
+              if (route.name === 'WorkoutPlans') {
+                iconName = focused ? 'barbell' : 'barbell-outline';
+              } else if (route.name === 'Statistics') {
+                iconName = focused ? 'stats-chart' : 'stats-chart-outline';
+              } else if (route.name === 'Progress') {
+                iconName = focused ? 'trending-up' : 'trending-up-outline';
+              } else if (route.name === 'Settings') {
+                iconName = focused ? 'settings' : 'settings-outline';
+              }
+
+              // You can return any component that you like here!
+              return <Ionicons name={iconName as string} size={size} color={color} />;
+            },
+        })}
     >
       <Tab.Screen 
         name="WorkoutPlans" 

@@ -1,15 +1,51 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState, useMemo } from 'react';
+import { View, StyleSheet, FlatList } from 'react-native';
 import { Screen } from '../../components/common/Screen';
 import { Theme } from '../../theme';
+import { SearchBar } from '../../components/common/SearchBar';
+import { CategoryFilter } from '../../components/workouts/CategoryFilter';
+import { ExerciseCard } from '../../components/workouts/ExerciseCard';
+import { EXERCISES, CATEGORIES } from '../../data/exercises';
 
 export const IndividualWorkoutsScreen = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const filteredExercises = useMemo(() => {
+    return EXERCISES.filter((exercise) => {
+      const matchesSearch = exercise.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = selectedCategory === 'All' || exercise.muscle === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [searchQuery, selectedCategory]);
+
   return (
     <Screen>
       <View style={styles.container}>
-        <Text style={styles.title}>Individual Workouts</Text>
-        <Text style={styles.subtitle}>Create your own custom routine</Text>
-        {/* Placeholder for list */}
+        <View style={styles.header}>
+          <SearchBar 
+            value={searchQuery} 
+            onChangeText={setSearchQuery} 
+            style={styles.searchBar}
+          />
+          <View style={styles.filterContainer}>
+            <CategoryFilter
+              categories={CATEGORIES}
+              selectedCategory={selectedCategory}
+              onSelectCategory={setSelectedCategory}
+            />
+          </View>
+        </View>
+
+        <FlatList
+          data={filteredExercises}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <ExerciseCard exercise={item} />}
+          numColumns={2}
+          contentContainerStyle={styles.listContent}
+          columnWrapperStyle={styles.columnWrapper}
+          showsVerticalScrollIndicator={false}
+        />
       </View>
     </Screen>
   );
@@ -18,17 +54,23 @@ export const IndividualWorkoutsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: Theme.spacing.m,
   },
-  title: {
-    ...Theme.textVariants.header,
-    textAlign: 'center',
+  header: {
+    paddingVertical: Theme.spacing.m,
+    backgroundColor: Theme.colors.background,
+  },
+  searchBar: {
+    marginHorizontal: Theme.spacing.m,
+    marginBottom: Theme.spacing.m,
+  },
+  filterContainer: {
     marginBottom: Theme.spacing.s,
   },
-  subtitle: {
-    ...Theme.textVariants.body,
-    textAlign: 'center',
+  listContent: {
+    paddingHorizontal: Theme.spacing.m,
+    paddingBottom: Theme.spacing.xl,
+  },
+  columnWrapper: {
+    justifyContent: 'space-between',
   },
 });

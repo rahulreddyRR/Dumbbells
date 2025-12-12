@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     borderColor: Theme.colors.primary,
   },
   text: {
-    color: Theme.colors.gray[400],
+    color: Theme.colors.gray[700],
     fontWeight: '600',
     fontSize: 14,
   },

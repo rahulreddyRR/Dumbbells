@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   muscle: {
-    color: Theme.colors.gray[500],
+    color: Theme.colors.gray[700],
     fontSize: 14,
   },
 });

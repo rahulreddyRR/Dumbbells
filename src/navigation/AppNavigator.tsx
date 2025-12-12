@@ -1,12 +1,10 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen } from '../screens/HomeScreen';
+import { MainTabNavigator } from './MainTabNavigator';
 
-// Define the parameter list for your navigation
-// Currently we only have Home, but this is where you'd add detail screens etc.
 export type RootStackParamList = {
-  Home: undefined;
+  Main: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -14,11 +12,10 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export const AppNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen 
-          name="Home" 
-          component={HomeScreen} 
-          options={{ title: 'Dumbbells' }}
+          name="Main" 
+          component={MainTabNavigator} 
         />
       </Stack.Navigator>
     </NavigationContainer>

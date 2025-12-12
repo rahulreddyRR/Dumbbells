@@ -1,19 +1,24 @@
 export const Colors = {
-  primary: '#007AFF', // Standard Blue
-  secondary: '#5856D6',
+  primary: '#24E564', // Bright Sporty Green
+  secondary: '#2C3E50', // Dark Blue/Gray for contrast elements
   white: '#FFFFFF',
   black: '#000000',
-  text: '#333333',
-  background: '#F2F2F7',
-  error: '#FF3B30',
-  success: '#34C759',
-  warning: '#FF9500',
+  text: '#FFFFFF', // White text for dark mode
+  textSecondary: '#A1A1AA',
+  background: '#0D1117', // Very dark background
+  surface: '#161B22', // Slightly lighter for cards/inputs
+  error: '#FF453A',
+  success: '#32D74B',
+  warning: '#FF9F0A',
   gray: {
-    100: '#F2F2F7',
-    200: '#E5E5EA',
-    300: '#D1D1D6',
-    400: '#C7C7CC',
-    500: '#AEAEB2',
+    100: '#1C1C1E', // Darkest gray
+    200: '#2C2C2E',
+    300: '#3A3A3C',
+    400: '#48484A',
+    500: '#636366',
     600: '#8E8E93',
+    700: '#AEAEB2',
+    800: '#D1D1D6',
+    900: '#F2F2F7', // Lightest gray
   },
 };

@@ -12,7 +12,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     id: '1',
     title: 'Beginner',
     subtitle: 'Start your journey',
-    frequency: '2-3 days/week',
+    frequency: 'Daily',
     difficulty: 'Beginner',
     image: require('../assets/plans/beginner.png'),
   },

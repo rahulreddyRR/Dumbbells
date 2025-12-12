@@ -29,7 +29,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({ plan }) => {
           <Text style={styles.title}>{plan.title}</Text>
           <Text style={styles.subtitle}>{plan.subtitle}</Text>
           <View style={styles.footer}>
-            <Ionicons name="calendar-outline" size={16} color={Theme.colors.gray[300]} />
+            <Ionicons name="calendar-outline" size={16} color={Theme.colors.gray[800]} />
             <Text style={styles.frequency}>{plan.frequency}</Text>
           </View>
         </View>
@@ -41,9 +41,9 @@ export const PlanCard: React.FC<PlanCardProps> = ({ plan }) => {
 const styles = StyleSheet.create({
   container: {
     marginBottom: Theme.spacing.m,
-    borderRadius: 16,
+    borderRadius: Theme.borderRadius.l,
     overflow: 'hidden',
-    backgroundColor: '#1C1C1E',
+    backgroundColor: Theme.colors.surface,
   },
   imageContainer: {
     height: 200,
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   placeholder: {
-    backgroundColor: '#2C2C2E',
+    backgroundColor: Theme.colors.gray[200],
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   subtitle: {
-    color: Theme.colors.gray[300],
+    color: Theme.colors.gray[800],
     fontSize: 14,
     marginBottom: 8,
   },
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   frequency: {
-    color: Theme.colors.gray[300],
+    color: Theme.colors.gray[800],
     fontSize: 12,
     marginLeft: 6,
   },

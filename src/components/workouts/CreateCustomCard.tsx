@@ -22,12 +22,12 @@ export const CreateCustomCard = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1C1C1E',
-    borderRadius: 16,
+    backgroundColor: Theme.colors.surface,
+    borderRadius: Theme.borderRadius.l,
     padding: Theme.spacing.m,
     marginBottom: Theme.spacing.l, // Extra margin at bottom
     borderWidth: 1,
-    borderColor: '#2C2C2E',
+    borderColor: Theme.colors.gray[200],
     borderStyle: 'dashed',
   },
   content: {

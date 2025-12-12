@@ -53,14 +53,14 @@ const styles = StyleSheet.create({
   chip: {
     paddingVertical: 8,
     paddingHorizontal: 16,
-    borderRadius: 20,
-    backgroundColor: '#1C1C1E', // Default dark bg
+    borderRadius: Theme.borderRadius.round,
+    backgroundColor: Theme.colors.surface, // Default dark bg
     borderWidth: 1,
-    borderColor: '#2C2C2E',
+    borderColor: Theme.colors.gray[200],
   },
   selectedChip: {
-    backgroundColor: Theme.colors.success, // Greenish color like in the image
-    borderColor: Theme.colors.success,
+    backgroundColor: Theme.colors.primary, // Greenish color like in the image
+    borderColor: Theme.colors.primary,
   },
   text: {
     color: Theme.colors.gray[400],

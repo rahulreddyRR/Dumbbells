@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1C1C1E', // Darker background for input
-    borderRadius: 8,
+    backgroundColor: Theme.colors.surface,
+    borderRadius: Theme.borderRadius.m,
     paddingHorizontal: Theme.spacing.m,
     height: 48,
   },

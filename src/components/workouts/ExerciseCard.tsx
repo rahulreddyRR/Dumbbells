@@ -39,9 +39,9 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     height: 120,
-    borderRadius: 12,
+    borderRadius: Theme.borderRadius.l,
     overflow: 'hidden',
-    backgroundColor: '#2C2C2E', // Placeholder color
+    backgroundColor: Theme.colors.gray[200], // Placeholder color
     marginBottom: Theme.spacing.s,
   },
   image: {

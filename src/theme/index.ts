@@ -3,6 +3,7 @@ import { Colors } from '../constants/colors';
 export const Theme = {
   colors: Colors,
   spacing: {
+    xs: 4,
     s: 8,
     m: 16,
     l: 24,

@@ -33,6 +33,8 @@ interface StoreState {
   clearSession: () => void;
   addCustomPlan: (plan: WorkoutPlan) => void;
   getCustomPlans: () => WorkoutPlan[];
+  clearWorkoutHistory: () => void;
+  deleteCustomPlans: () => void;
 }
 
 export const useWorkoutStore = create<StoreState>()(
@@ -53,6 +55,8 @@ export const useWorkoutStore = create<StoreState>()(
         customPlans: [...state.customPlans, plan]
       })),
       getCustomPlans: () => get().customPlans,
+      clearWorkoutHistory: () => set({ completedWorkouts: [] }),
+      deleteCustomPlans: () => set({ customPlans: [] }),
     }),
     {
       name: 'workout-storage',
@@ -60,3 +64,4 @@ export const useWorkoutStore = create<StoreState>()(
     }
   )
 );
+

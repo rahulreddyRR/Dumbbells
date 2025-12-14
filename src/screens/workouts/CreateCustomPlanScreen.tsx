@@ -27,6 +27,8 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
     const [planName, setPlanName] = useState('');
     const [difficulty, setDifficulty] = useState<'Beginner' | 'Intermediate' | 'Advanced'>('Beginner');
     const [daysPerWeek, setDaysPerWeek] = useState('');
+    const [restBetweenSets, setRestBetweenSets] = useState('60');
+    const [restBetweenExercises, setRestBetweenExercises] = useState('90');
 
     // Days & Exercises
     const [days, setDays] = useState<CustomDay[]>([
@@ -169,8 +171,8 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
             subtitle: 'Custom Plan',
             frequency: `${daysPerWeek} days/week`,
             difficulty: difficulty,
-            restBetweenSets: 60,
-            restBetweenExercises: 90,
+            restBetweenSets: parseInt(restBetweenSets) || 60,
+            restBetweenExercises: parseInt(restBetweenExercises) || 90,
             stats: {
                 calories: estimatedCalories,
                 weight: estimatedWeight,
@@ -283,6 +285,7 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
                 </View>
             </View>
 
+
             <View style={styles.inputGroup}>
                 <Text style={styles.label}>Days Per Week *</Text>
                 <TextInput
@@ -299,6 +302,34 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
                     maxLength={1}
                 />
                 <Text style={styles.helperText}>Enter a number between 1-7</Text>
+            </View>
+
+            <View style={styles.row}>
+                <View style={[styles.inputGroup, { flex: 1, marginRight: 8 }]}>
+                    <Text style={styles.label}>Rest Between Sets (s)</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={restBetweenSets}
+                        onChangeText={(text) => setRestBetweenSets(text.replace(/[^0-9]/g, ''))}
+                        placeholder="60"
+                        placeholderTextColor={Theme.colors.gray[500]}
+                        keyboardType="number-pad"
+                        maxLength={3}
+                    />
+                </View>
+
+                <View style={[styles.inputGroup, { flex: 1, marginLeft: 8 }]}>
+                    <Text style={styles.label}>Rest Between Exercises (s)</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={restBetweenExercises}
+                        onChangeText={(text) => setRestBetweenExercises(text.replace(/[^0-9]/g, ''))}
+                        placeholder="90"
+                        placeholderTextColor={Theme.colors.gray[500]}
+                        keyboardType="number-pad"
+                        maxLength={3}
+                    />
+                </View>
             </View>
 
             <TouchableOpacity

@@ -17,6 +17,7 @@ export interface ActiveSession {
   completedWeight: number;
   accumulatedCalories: number;
   startTime: string; // ISO string
+  restEndTime: string | null; // ISO string for when rest ends
 }
 
 interface StoreState {

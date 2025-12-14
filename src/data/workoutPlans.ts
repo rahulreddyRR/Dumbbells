@@ -24,6 +24,8 @@ export interface WorkoutPlan {
   frequency: string;
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
   image?: any;
+  restBetweenSets?: number; // Configurable rest in seconds
+  restBetweenExercises?: number; // Configurable rest in seconds
   stats: {
     calories: number;
     weight: number;
@@ -40,6 +42,8 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     frequency: 'Daily',
     difficulty: 'Beginner',
     image: require('../assets/plans/beginner.png'),
+    restBetweenSets: 60,
+    restBetweenExercises: 90,
     stats: {
       calories: 72,
       weight: 876,
@@ -67,6 +71,8 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     frequency: 'Daily',
     difficulty: 'Intermediate',
     image: require('../assets/plans/weight_loss.png'),
+    restBetweenSets: 45,
+    restBetweenExercises: 60,
     stats: {
         calories: 264,
         weight: 2760,
@@ -98,6 +104,8 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     frequency: '3 days/week',
     difficulty: 'Intermediate',
     image: require('../assets/plans/full_body.png'),
+    restBetweenSets: 60,
+    restBetweenExercises: 120,
     stats: {
         calories: 277,
         weight: 3696,
@@ -156,6 +164,8 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     difficulty: 'Advanced',
     // Fallback or placeholder since generation limit reached
     image: null,
+    restBetweenSets: 75,
+    restBetweenExercises: 120,
     stats: {
         calories: 186,
         weight: 3460,
@@ -229,6 +239,8 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     difficulty: 'Advanced',
     // Fallback or placeholder since generation limit reached
     image: null,
+    restBetweenSets: 45,
+    restBetweenExercises: 90,
     stats: {
         calories: 507,
         weight: 7184,

@@ -4,10 +4,11 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { WORKOUT_PLANS, PlanExercise } from '../../data/workoutPlans';
 import { Theme } from '../../theme';
-import { useWorkoutStore } from '../../store/workoutStore';
+import { useWorkoutStore, ActiveSession } from '../../store/workoutStore';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Screen } from '../../components/common/Screen';
 import { Button } from '../../components/common/Button';
+import { RestTimer } from '../../components/workouts/RestTimer';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'WorkoutTracking'>;
 
@@ -15,6 +16,9 @@ type Props = NativeStackScreenProps<RootStackParamList, 'WorkoutTracking'>;
 const parseSets = (setsStr: string): number[] => {
     return setsStr.split('+').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
 };
+
+const REST_TIME_SET = 60; // 60 seconds
+const REST_TIME_EXERCISE = 90; // 90 seconds
 
 
 export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) => {
@@ -60,6 +64,24 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
         addCompletedWorkout
     } = useWorkoutStore();
 
+    // Rest Timer State
+    const [isResting, setIsResting] = React.useState(false);
+
+    React.useEffect(() => {
+        if (activeSession?.restEndTime) {
+            const now = new Date().toISOString();
+            if (activeSession.restEndTime > now) {
+                setIsResting(true);
+            } else {
+                // If loaded and time passed, clear rest
+                updateSession({ restEndTime: null });
+                setIsResting(false);
+            }
+        } else {
+            setIsResting(false);
+        }
+    }, [activeSession?.restEndTime]);
+
     // Resume or Start Session
     React.useEffect(() => {
         if (activeSession && activeSession.planId === planId && activeSession.day === day) {
@@ -71,7 +93,8 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
                 currentStepIndex: 0,
                 completedWeight: 0,
                 accumulatedCalories: 0,
-                startTime: new Date().toISOString()
+                startTime: new Date().toISOString(),
+                restEndTime: null
             });
             setCurrentIndex(0);
         }
@@ -116,34 +139,39 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
     const handleStepCompletion = (skipped: boolean) => {
         if (!activeSession) return;
 
-        const step = workoutSequence[currentIndex];
+        const currentStep = workoutSequence[currentIndex];
 
-        // Calculate stats for this specific step
-        const weightNum = parseFloat(step.exercise.weight) || 0;
-        const stepWeight = skipped ? 0 : (weightNum * step.reps);
-        // Estimate calories per step (simplified logic: total calories / total steps)
+        // Calculate stats (unchanged)
+        const weightNum = parseFloat(currentStep.exercise.weight) || 0;
+        const stepWeight = skipped ? 0 : (weightNum * currentStep.reps);
         const totalSteps = workoutSequence.length;
         const totalCalories = dayPlan?.stats?.calories || plan.stats?.calories || 200;
         const stepCalories = skipped ? 0 : Math.round(totalCalories / totalSteps);
 
-        const newUpdates = {
-            currentStepIndex: currentIndex + 1,
+        const nextIndex = currentIndex + 1;
+
+        // Determine Rest Time
+        let restDuration = 0;
+        if (nextIndex < workoutSequence.length) {
+            const nextStep = workoutSequence[nextIndex];
+            if (nextStep.exercise.id === currentStep.exercise.id) {
+                restDuration = plan.restBetweenSets || 60;
+            } else {
+                restDuration = plan.restBetweenExercises || 90;
+            }
+        }
+
+        const updates: Partial<ActiveSession> = {
+            currentStepIndex: nextIndex,
             completedWeight: activeSession.completedWeight + stepWeight,
-            accumulatedCalories: activeSession.accumulatedCalories + stepCalories
+            accumulatedCalories: activeSession.accumulatedCalories + stepCalories,
+            restEndTime: restDuration > 0
+                ? new Date(Date.now() + restDuration * 1000).toISOString()
+                : null
         };
 
         if (isLastStep) {
-            // Update final stats before saving
-            useWorkoutStore.setState(state => ({
-                activeSession: state.activeSession ? { ...state.activeSession, ...newUpdates } : null
-            }));
-            // Immediate save with updated values (hacky access to latest state or just reuse values)
-            // Better: update store then save. For now, pass values directly to save if needed, 
-            // but saveAndFinish pulls from store. 
-            // To ensure consistency, we'll manually construct the final object for saveAndFinish here
-            // or just update store and wait? 
-            // Safest: Use values directly.
-
+            // ... final save logic (unchanged essentially, just ensure no rest set if finishing)
             const startTime = new Date(activeSession.startTime).getTime();
             const durationMinutes = Math.max(1, Math.round((Date.now() - startTime) / 60000));
 
@@ -160,9 +188,27 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
             navigation.navigate('Main');
 
         } else {
-            updateSession(newUpdates);
-            setCurrentIndex(prev => prev + 1);
+            updateSession(updates);
+            setCurrentIndex(nextIndex);
+            // Timer checks effect will trigger IsResting=true if restEndTime is set
         }
+    };
+
+    // Timer Handlers
+    const handleTimerComplete = () => {
+        setIsResting(false);
+        updateSession({ restEndTime: null });
+    };
+
+    const handleTimerAdjust = (seconds: number) => {
+        if (activeSession?.restEndTime) {
+            const newEnd = new Date(new Date(activeSession.restEndTime).getTime() + seconds * 1000).toISOString();
+            updateSession({ restEndTime: newEnd });
+        }
+    };
+
+    const handleTimerSkip = () => {
+        handleTimerComplete();
     };
 
     const isLastStep = currentIndex === workoutSequence.length - 1;
@@ -185,6 +231,13 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
 
     return (
         <Screen>
+            <RestTimer
+                isVisible={isResting}
+                targetTime={activeSession?.restEndTime || ''}
+                onComplete={handleTimerComplete}
+                onAdd={handleTimerAdjust}
+                onSkip={handleTimerSkip}
+            />
             {/* Header */}
             <View style={styles.header}>
                 <TouchableOpacity onPress={handleQuit}>

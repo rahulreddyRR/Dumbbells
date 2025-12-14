@@ -7,6 +7,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Screen } from '../../components/common/Screen';
 import { PlanExercise, DayPlan, WorkoutPlan } from '../../data/workoutPlans';
 import { useWorkoutStore } from '../../store/workoutStore';
+import { ConfirmationModal } from '../../components/common/ConfirmationModal';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CreateCustomPlan'>;
 
@@ -22,6 +23,18 @@ interface CustomDay extends Omit<DayPlan, 'exercises'> {
 export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
     const addCustomPlan = useWorkoutStore((state) => state.addCustomPlan);
     const [step, setStep] = useState(1);
+
+    // Modal State
+    const [modalVisible, setModalVisible] = React.useState(false);
+    const [modalConfig, setModalConfig] = React.useState<{
+        title: string;
+        message: string;
+        buttons: { text: string; onPress: () => void; style?: 'default' | 'cancel' | 'destructive' }[];
+    }>({
+        title: '',
+        message: '',
+        buttons: []
+    });
 
     // Plan Details
     const [planName, setPlanName] = useState('');
@@ -44,7 +57,12 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
 
     const addExercise = () => {
         if (!exerciseName || !numSets || !reps || !weight) {
-            Alert.alert('Error', 'Please fill all exercise fields');
+            setModalConfig({
+                title: 'Error',
+                message: 'Please fill all exercise fields',
+                buttons: [{ text: 'OK', onPress: () => setModalVisible(false), style: 'default' }]
+            });
+            setModalVisible(true);
             return;
         }
 
@@ -204,11 +222,12 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
         // Save to store
         addCustomPlan(newPlan);
 
-        Alert.alert(
-            'Success',
-            `Custom plan "${planName}" created with ${days.length} day(s) (${restDayCount} rest day${restDayCount !== 1 ? 's' : ''}) and ${totalExercises} exercise(s)!`,
-            [{ text: 'OK', onPress: () => navigation.goBack() }]
-        );
+        setModalConfig({
+            title: 'Success',
+            message: `Custom plan "${planName}" created with ${days.length} day(s) (${restDayCount} rest day${restDayCount !== 1 ? 's' : ''}) and ${totalExercises} exercise(s)!`,
+            buttons: [{ text: 'OK', onPress: () => { setModalVisible(false); navigation.goBack(); }, style: 'default' }]
+        });
+        setModalVisible(true);
     };
     const renderStepIndicator = () => (
         <View style={styles.stepIndicator}>
@@ -224,16 +243,31 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
 
     const handleNextStep = () => {
         if (!planName.trim()) {
-            Alert.alert('Required Field', 'Please enter a plan name');
+            setModalConfig({
+                title: 'Required Field',
+                message: 'Please enter a plan name',
+                buttons: [{ text: 'OK', onPress: () => setModalVisible(false), style: 'default' }]
+            });
+            setModalVisible(true);
             return;
         }
         if (!daysPerWeek.trim()) {
-            Alert.alert('Required Field', 'Please enter days per week (1-7)');
+            setModalConfig({
+                title: 'Required Field',
+                message: 'Please enter days per week (1-7)',
+                buttons: [{ text: 'OK', onPress: () => setModalVisible(false), style: 'default' }]
+            });
+            setModalVisible(true);
             return;
         }
         const numDays = parseInt(daysPerWeek);
         if (isNaN(numDays) || numDays < 1 || numDays > 7) {
-            Alert.alert('Invalid Input', 'Days per week must be a number between 1 and 7');
+            setModalConfig({
+                title: 'Invalid Input',
+                message: 'Days per week must be a number between 1 and 7',
+                buttons: [{ text: 'OK', onPress: () => setModalVisible(false), style: 'default' }]
+            });
+            setModalVisible(true);
             return;
         }
 
@@ -537,6 +571,13 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
                     {step === 1 ? renderStep1() : renderStep2()}
                 </ScrollView>
             </View>
+            <ConfirmationModal
+                visible={modalVisible}
+                title={modalConfig.title}
+                message={modalConfig.message}
+                buttons={modalConfig.buttons}
+                onCancel={() => setModalVisible(false)}
+            />
         </Screen>
     );
 };

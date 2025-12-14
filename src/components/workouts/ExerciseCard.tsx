@@ -10,7 +10,7 @@ interface ExerciseCardProps {
   exercise: Exercise;
 }
 
-export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise }) => {
+export const ExerciseCard = React.memo(({ exercise }: ExerciseCardProps) => {
   return (
     <TouchableOpacity style={styles.container}>
       <View style={styles.imageContainer}>
@@ -25,11 +25,10 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise }) => {
       </View>
       <View style={styles.content}>
         <Text style={styles.name} numberOfLines={2}>{exercise.name}</Text>
-        <Text style={styles.muscle}>{exercise.muscle}</Text>
       </View>
     </TouchableOpacity>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -59,7 +58,6 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 4,
-    paddingBottom: 8,
   },
   name: {
     color: Theme.colors.white,

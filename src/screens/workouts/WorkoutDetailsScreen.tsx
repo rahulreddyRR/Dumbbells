@@ -55,9 +55,9 @@ export const WorkoutDetailsScreen: React.FC<Props> = ({ route, navigation }) => 
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.iconButton}>
               <Ionicons name="arrow-back" size={24} color={Theme.colors.white} />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
+            {/* <TouchableOpacity style={styles.iconButton}>
               <Ionicons name="heart-outline" size={24} color={Theme.colors.white} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
 
           {/* Header Content */}

@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { WORKOUT_PLANS, PlanExercise } from '../../data/workoutPlans';
 import { Theme } from '../../theme';
+import { useWorkoutStore } from '../../store/workoutStore';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Screen } from '../../components/common/Screen';
 import { Button } from '../../components/common/Button';
@@ -51,35 +52,151 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
         );
     }
 
-    const currentStep = workoutSequence[currentIndex];
-    const isLastStep = currentIndex === workoutSequence.length - 1;
+    const {
+        activeSession,
+        startSession,
+        updateSession,
+        clearSession,
+        addCompletedWorkout
+    } = useWorkoutStore();
 
-    const handleNext = () => {
-        if (isLastStep) {
-            navigation.goBack();
+    // Resume or Start Session
+    React.useEffect(() => {
+        if (activeSession && activeSession.planId === planId && activeSession.day === day) {
+            setCurrentIndex(activeSession.currentStepIndex);
         } else {
+            startSession({
+                planId,
+                day,
+                currentStepIndex: 0,
+                completedWeight: 0,
+                accumulatedCalories: 0,
+                startTime: new Date().toISOString()
+            });
+            setCurrentIndex(0);
+        }
+    }, [planId, day]);
+
+    const saveAndFinish = () => {
+        if (!activeSession) return;
+
+        // Calculate duration based on start time
+        const startTime = new Date(activeSession.startTime).getTime();
+        const durationMinutes = Math.max(1, Math.round((Date.now() - startTime) / 60000));
+
+        addCompletedWorkout({
+            id: Date.now().toString(),
+            date: new Date().toISOString(),
+            planId: plan.id,
+            planName: plan.title,
+            durationMinutes: durationMinutes,
+            caloriesBurned: activeSession.accumulatedCalories,
+            weightLifted: activeSession.completedWeight,
+        });
+
+        clearSession();
+        navigation.navigate('Main');
+    };
+
+    const handleFinishPress = () => {
+        if (currentIndex < workoutSequence.length - 1) {
+            Alert.alert(
+                "Finish Workout?",
+                `You have ${workoutSequence.length - currentIndex} sets remaining. Finish anyway?`,
+                [
+                    { text: "Cancel", style: "cancel" },
+                    { text: "Finish", onPress: saveAndFinish }
+                ]
+            );
+        } else {
+            saveAndFinish();
+        }
+    };
+
+    const handleStepCompletion = (skipped: boolean) => {
+        if (!activeSession) return;
+
+        const step = workoutSequence[currentIndex];
+
+        // Calculate stats for this specific step
+        const weightNum = parseFloat(step.exercise.weight) || 0;
+        const stepWeight = skipped ? 0 : (weightNum * step.reps);
+        // Estimate calories per step (simplified logic: total calories / total steps)
+        const totalSteps = workoutSequence.length;
+        const totalCalories = dayPlan?.stats?.calories || plan.stats?.calories || 200;
+        const stepCalories = skipped ? 0 : Math.round(totalCalories / totalSteps);
+
+        const newUpdates = {
+            currentStepIndex: currentIndex + 1,
+            completedWeight: activeSession.completedWeight + stepWeight,
+            accumulatedCalories: activeSession.accumulatedCalories + stepCalories
+        };
+
+        if (isLastStep) {
+            // Update final stats before saving
+            useWorkoutStore.setState(state => ({
+                activeSession: state.activeSession ? { ...state.activeSession, ...newUpdates } : null
+            }));
+            // Immediate save with updated values (hacky access to latest state or just reuse values)
+            // Better: update store then save. For now, pass values directly to save if needed, 
+            // but saveAndFinish pulls from store. 
+            // To ensure consistency, we'll manually construct the final object for saveAndFinish here
+            // or just update store and wait? 
+            // Safest: Use values directly.
+
+            const startTime = new Date(activeSession.startTime).getTime();
+            const durationMinutes = Math.max(1, Math.round((Date.now() - startTime) / 60000));
+
+            addCompletedWorkout({
+                id: Date.now().toString(),
+                date: new Date().toISOString(),
+                planId: plan.id,
+                planName: plan.title,
+                durationMinutes: durationMinutes,
+                caloriesBurned: activeSession.accumulatedCalories + stepCalories,
+                weightLifted: activeSession.completedWeight + stepWeight,
+            });
+            clearSession();
+            navigation.navigate('Main');
+
+        } else {
+            updateSession(newUpdates);
             setCurrentIndex(prev => prev + 1);
         }
     };
 
-    const handlePrev = () => {
-        if (currentIndex > 0) {
-            setCurrentIndex(prev => prev - 1);
-        }
+    const isLastStep = currentIndex === workoutSequence.length - 1;
+    const currentStep = workoutSequence[currentIndex];
+
+    const handleNext = () => handleStepCompletion(false);
+    const handleSkip = () => handleStepCompletion(true);
+
+    const handleQuit = () => {
+        Alert.alert(
+            "Quit Workout?",
+            "Your progress is saved. You can resume later or finish now.",
+            [
+                { text: "Resume Later", onPress: () => navigation.goBack() }, // Just go back, session stays in store
+                { text: "Complete Day", onPress: saveAndFinish }, // Save partial and finish
+                { text: "Discard", style: 'destructive', onPress: () => { clearSession(); navigation.goBack(); } }
+            ]
+        );
     };
 
     return (
         <Screen>
             {/* Header */}
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={handleQuit}>
                     <Ionicons name="arrow-back" size={24} color={Theme.colors.white} />
                 </TouchableOpacity>
                 <View style={styles.headerTitles}>
                     <Text style={styles.headerTitle}>Workout</Text>
                     <Text style={styles.headerSubtitle}>{plan.title}</Text>
                 </View>
-                <View style={{ width: 24 }} />
+                <TouchableOpacity onPress={handleFinishPress}>
+                    <Text style={styles.finishText}>Finish</Text>
+                </TouchableOpacity>
             </View>
 
             {/* Main Content */}
@@ -99,7 +216,11 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
                             <Text style={styles.viewText}>Reps: {currentStep.reps}</Text>
                         </View>
                     </View>
-                    <Button title="Done" onPress={handleNext} />
+                    <View style={styles.actionButtons}>
+                        <Button title="Skip" onPress={handleSkip} variant="secondary" style={{ flex: 1 }} />
+                        <View style={{ width: 10 }} />
+                        <Button title="Done" onPress={handleNext} style={{ flex: 2 }} />
+                    </View>
                 </View>
                 <View style={{ alignItems: 'center', }}>
                     <Text style={styles.nextInfo}>Next Exercise:</Text>
@@ -223,5 +344,15 @@ const styles = StyleSheet.create({
     },
     iconWrapper: {
         alignItems: 'center',
+    },
+    actionButtons: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        width: '100%',
+    },
+    finishText: {
+        color: Theme.colors.primary,
+        fontWeight: 'bold',
+        fontSize: 16,
     }
 });

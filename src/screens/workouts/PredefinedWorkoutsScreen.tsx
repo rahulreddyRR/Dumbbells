@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, Text } from 'react-native';
-import { Screen } from '../../components/common/Screen';
+import { StyleSheet, FlatList, Text } from 'react-native';
+import { ScreenContainer } from '../../components/common/Screen';
 import { Theme } from '../../theme';
 import { PlanCard } from '../../components/workouts/PlanCard';
 import { CreateCustomCard } from '../../components/workouts/CreateCustomCard';
@@ -14,15 +14,15 @@ export const PredefinedWorkoutsScreen = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   return (
-    <Screen>
+    <ScreenContainer>
       <FlatList
         data={WORKOUT_PLANS}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-            <PlanCard 
-                plan={item} 
-                onPress={() => navigation.navigate('WorkoutDetails', { planId: item.id })}
-            />
+          <PlanCard
+            plan={item}
+            onPress={() => navigation.navigate('WorkoutDetails', { planId: item.id })}
+          />
         )}
         contentContainerStyle={styles.listContent}
         ListHeaderComponent={
@@ -31,7 +31,7 @@ export const PredefinedWorkoutsScreen = () => {
         ListFooterComponent={<CreateCustomCard />}
         showsVerticalScrollIndicator={false}
       />
-    </Screen>
+    </ScreenContainer>
   );
 };
 

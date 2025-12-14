@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert, TextInput, Modal, TouchableOpacity } from 'react-native';
-import { Screen } from '../components/common/Screen';
+import { ScreenContainer } from '../components/common/Screen';
 import { Theme } from '../theme';
 import { useWorkoutStore } from '../store/workoutStore';
 import { useUserProfileStore } from '../store/userProfileStore';
@@ -26,6 +26,9 @@ export const SettingsScreen = () => {
 
   const [showNameModal, setShowNameModal] = useState(false);
   const [tempName, setTempName] = useState(userProfile.name);
+
+  const [showGoalModal, setShowGoalModal] = useState(false);
+  const [tempGoal, setTempGoal] = useState<typeof userProfile.fitnessGoal>(userProfile.fitnessGoal);
 
   const fitnessGoalLabels = {
     weight_loss: 'Weight Loss',
@@ -96,8 +99,13 @@ export const SettingsScreen = () => {
     setShowNameModal(false);
   };
 
+  const saveGoal = () => {
+    updateUserProfile({ fitnessGoal: tempGoal });
+    setShowGoalModal(false);
+  };
+
   return (
-    <Screen>
+    <ScreenContainer>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <Text style={styles.title}>Settings</Text>
@@ -137,7 +145,10 @@ export const SettingsScreen = () => {
             icon="trophy-outline"
             label="Fitness Goal"
             value={fitnessGoalLabels[userProfile.fitnessGoal]}
-            onPress={() => Alert.alert('Coming Soon', 'Goal editing will be available soon')}
+            onPress={() => {
+              setTempGoal(userProfile.fitnessGoal);
+              setShowGoalModal(true);
+            }}
             isLast
           />
         </SettingSection>
@@ -251,7 +262,53 @@ export const SettingsScreen = () => {
           </View>
         </View>
       </Modal>
-    </Screen>
+
+      {/* Goal Edit Modal */}
+      <Modal visible={showGoalModal} transparent animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Select Fitness Goal</Text>
+
+            <View style={{ marginVertical: 16 }}>
+              {(Object.keys(fitnessGoalLabels) as Array<keyof typeof fitnessGoalLabels>).map((goal) => (
+                <TouchableOpacity
+                  key={goal}
+                  style={[
+                    styles.goalOption,
+                    tempGoal === goal && styles.goalOptionActive
+                  ]}
+                  onPress={() => setTempGoal(goal)}
+                >
+                  <Ionicons
+                    name={tempGoal === goal ? 'radio-button-on' : 'radio-button-off'}
+                    size={20}
+                    color={tempGoal === goal ? Theme.colors.primary : Theme.colors.gray[500]}
+                  />
+                  <Text style={[
+                    styles.goalLabel,
+                    tempGoal === goal && styles.goalLabelActive
+                  ]}>
+                    {fitnessGoalLabels[goal]}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.cancelButton]}
+                onPress={() => setShowGoalModal(false)}
+              >
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.modalButton, styles.saveButton]} onPress={saveGoal}>
+                <Text style={styles.saveButtonText}>Save</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </ScreenContainer>
   );
 };
 
@@ -302,6 +359,30 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: Theme.spacing.m,
   },
+  goalOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: Theme.spacing.m,
+    borderRadius: Theme.borderRadius.m,
+    borderWidth: 1,
+    borderColor: Theme.colors.gray[700], // Updated to use specific gray
+    marginBottom: Theme.spacing.s,
+    gap: Theme.spacing.m,
+  },
+  goalOptionActive: {
+    borderColor: Theme.colors.primary,
+    backgroundColor: 'rgba(212, 255, 0, 0.05)',
+  },
+  goalLabel: {
+    color: Theme.colors.gray[300],
+    fontSize: 16,
+    flex: 1,
+  },
+  goalLabelActive: {
+    color: Theme.colors.white,
+    fontWeight: '600',
+  },
+
   modalInput: {
     backgroundColor: Theme.colors.background,
     borderRadius: Theme.borderRadius.m,

@@ -12,8 +12,12 @@ export interface UserProfile {
 
 interface UserProfileState {
   profile: UserProfile;
+  hasCompletedOnboarding: boolean;
   updateProfile: (profile: Partial<UserProfile>) => void;
+  completeOnboarding: () => void;
   resetProfile: () => void;
+  _hasHydrated: boolean;
+  setHasHydrated: (state: boolean) => void;
 }
 
 const defaultProfile: UserProfile = {
@@ -28,14 +32,21 @@ export const useUserProfileStore = create<UserProfileState>()(
   persist(
     (set) => ({
       profile: defaultProfile,
+      hasCompletedOnboarding: false,
       updateProfile: (updates) => set((state) => ({
         profile: { ...state.profile, ...updates }
       })),
-      resetProfile: () => set({ profile: defaultProfile }),
+      completeOnboarding: () => set({ hasCompletedOnboarding: true }),
+      resetProfile: () => set({ profile: defaultProfile, hasCompletedOnboarding: false }),
+      _hasHydrated: false,
+      setHasHydrated: (state) => set({ _hasHydrated: state }),
     }),
     {
       name: 'user-profile-storage',
       storage: createJSONStorage(() => AsyncStorage),
+      onRehydrateStorage: () => (state?: UserProfileState) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

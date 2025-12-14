@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         padding: Theme.spacing.xl,
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: Theme.colors.border,
+        borderColor: Theme.colors.gray[700],
         shadowColor: "#000",
         shadowOffset: { width: 0, height: 10 },
         shadowOpacity: 0.5,
@@ -134,6 +134,11 @@ const styles = StyleSheet.create({
         borderRadius: Theme.borderRadius.l,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    buttonText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        letterSpacing: 0.5,
     },
     primaryButton: {
         backgroundColor: Theme.colors.primary,

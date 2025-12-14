@@ -16,10 +16,10 @@ interface AppSettingsState {
 }
 
 const defaultSettings: AppSettings = {
-  soundEffects: true,
+  soundEffects: false,
   hapticFeedback: true,
   workoutReminders: false,
-  restTimerSound: true,
+  restTimerSound: false,
 };
 
 export const useAppSettingsStore = create<AppSettingsState>()(

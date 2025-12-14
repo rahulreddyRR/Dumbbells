@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: Theme.spacing.l,
+        zIndex: 1000,
     },
     container: {
         width: Math.min(width - 40, 340),
@@ -142,6 +143,7 @@ const styles = StyleSheet.create({
     },
     primaryButton: {
         backgroundColor: Theme.colors.primary,
+        minHeight: 48,
     },
     primaryButtonText: {
         color: Theme.colors.background,

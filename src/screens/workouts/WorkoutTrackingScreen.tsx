@@ -297,12 +297,11 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
             />
             {/* Header */}
             <View style={styles.header}>
-                <TouchableOpacity onPress={handleQuit}>
-                    <Ionicons name="arrow-back" size={24} color={Theme.colors.white} />
+                <TouchableOpacity onPress={handleQuit} style={styles.iconButton}>
+                    <Ionicons name="close" size={24} color={Theme.colors.white} />
                 </TouchableOpacity>
                 <View style={styles.headerTitles}>
-                    <Text style={styles.headerTitle}>Workout</Text>
-                    <Text style={styles.headerSubtitle}>{plan.title}</Text>
+                    <Text style={styles.headerSubtitle}>{plan.title} • Day {day}</Text>
                 </View>
                 <TouchableOpacity onPress={handleFinishPress}>
                     <Text style={styles.finishText}>Finish</Text>
@@ -310,52 +309,88 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
             </View>
 
             {/* Main Content */}
-            <View style={styles.mainContent}>
-                {currentStep.exercise.image && (
-                    <View style={styles.imageContainer}>
+            <View style={styles.contentContainer}>
+                {/* Exercise Image */}
+                <View style={styles.imageSection}>
+                    {currentStep.exercise.image && (
                         <Image
                             source={currentStep.exercise.image}
                             style={styles.exerciseImage}
                             resizeMode="contain"
                         />
+                    )}
+                </View>
+
+                {/* Exercise Info */}
+                <View style={styles.infoSection}>
+                    <Text style={styles.exerciseTitle} numberOfLines={2}>{currentStep.exercise.name}</Text>
+                    <View style={styles.setBadge}>
+                        <Ionicons name="repeat" size={12} color={Theme.colors.primary} style={{ marginRight: 4 }} />
+                        <Text style={styles.setText}>Set {currentStep.setIndex} of {currentStep.totalSets}</Text>
                     </View>
-                )}
-                <Text style={styles.exerciseTitle}>{currentStep.exercise.name}</Text>
-                <Text style={styles.setInfo}>Set {currentStep.setIndex} of {currentStep.totalSets}</Text>
+                </View>
+
+                {/* Stats Cards */}
+                <View style={styles.statsContainer}>
+                    <View style={styles.statCard}>
+                        <Text style={styles.statLabel}>WEIGHT</Text>
+                        <Text style={styles.statValue}>{currentStep.exercise.weight}</Text>
+                    </View>
+                    <View style={styles.statCard}>
+                        <Text style={styles.statLabel}>REPS</Text>
+                        <Text style={styles.statValue}>{currentStep.reps}</Text>
+                    </View>
+                </View>
+
+                {/* Action Buttons */}
+                <View style={styles.actionButtons}>
+                    <Button
+                        title="Skip"
+                        onPress={handleSkip}
+                        variant="secondary"
+                        style={styles.skipButton}
+                    />
+                    <Button
+                        title="Done"
+                        onPress={handleNext}
+                        style={styles.doneButton}
+                    />
+                </View>
             </View>
 
-            {/* Bottom Progress Strip */}
-            <View style={styles.bottomStrip}>
-                <View style={styles.bottomStripContent}>
-                    <View style={styles.weightRepsView}>
-                        <View style={styles.weightView}>
-                            <Text style={styles.viewText}>Weight: {currentStep.exercise.weight}</Text>
+            {/* Footer / Next Up */}
+            <View style={styles.footer}>
+                {!isLastStep ? (
+                    <>
+                        <View style={styles.footerHeader}>
+                            <Text style={styles.footerLabel}>UP NEXT</Text>
                         </View>
-                        <View style={styles.repsView}>
-                            <Text style={styles.viewText}>Reps: {currentStep.reps}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.actionButtons}>
-                        <Button title="Skip" onPress={handleSkip} variant="secondary" style={{ flex: 1 }} />
-                        <View style={{ width: 10 }} />
-                        <Button title="Done" onPress={handleNext} style={{ flex: 2 }} />
-                    </View>
-                </View>
-                <View style={{ alignItems: 'center', }}>
-                    <Text style={styles.nextInfo}>Next Exercise:</Text>
-                    <Text style={styles.nextSet}>
-                        {currentIndex < workoutSequence.length - 1
-                            ? `Set ${workoutSequence[currentIndex + 1].setIndex}`
-                            : "Finish"}
-                    </Text>
-                    <View style={styles.iconsRow}>
-                        {dayPlan.exercises.map((ex, idx) => (
-                            <View key={ex.id} style={[styles.iconWrapper, { opacity: currentStep.exercise.id === ex.id ? 1 : 0.4 }]}>
-                                <Ionicons name="fitness" size={20} color={Theme.colors.white} />
+                        <View style={styles.nextExerciseRow}>
+                            {workoutSequence[currentIndex + 1].exercise.image ? (
+                                <Image
+                                    source={workoutSequence[currentIndex + 1].exercise.image}
+                                    style={styles.nextThumb}
+                                    resizeMode="contain"
+                                />
+                            ) : (
+                                <View style={[styles.nextThumb, { backgroundColor: Theme.colors.gray[800] }]} />
+                            )}
+                            <View style={styles.nextInfoContainer}>
+                                <Text style={styles.nextTitle} numberOfLines={1}>
+                                    {workoutSequence[currentIndex + 1].exercise.name}
+                                </Text>
+                                <Text style={styles.nextDetails}>
+                                    Set {workoutSequence[currentIndex + 1].setIndex} • {workoutSequence[currentIndex + 1].reps} Reps
+                                </Text>
                             </View>
-                        ))}
+                        </View>
+                    </>
+                ) : (
+                    <View style={styles.finishFooter}>
+                        <Ionicons name="trophy" size={24} color={Theme.colors.primary} />
+                        <Text style={styles.finishFooterText}>Last Set!</Text>
                     </View>
-                </View>
+                )}
             </View>
 
             <ConfirmationModal
@@ -373,124 +408,165 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Theme.colors.black,
+        backgroundColor: Theme.colors.background,
     },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: Theme.spacing.m,
-        paddingVertical: Theme.spacing.s,
+        paddingTop: Theme.spacing.m,
+        paddingBottom: Theme.spacing.s,
+    },
+    iconButton: {
+        width: 40,
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: Theme.colors.surface,
+        borderRadius: 20,
     },
     headerTitles: {
         alignItems: 'center',
     },
-    headerTitle: {
-        color: Theme.colors.white,
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
     headerSubtitle: {
-        color: Theme.colors.gray[500],
+        color: Theme.colors.gray[400],
+        fontSize: 14,
+        fontWeight: '600',
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+    },
+    finishText: {
+        color: Theme.colors.error,
+        fontWeight: '600',
         fontSize: 14,
     },
-    mainContent: {
+    contentContainer: {
         flex: 1,
-        alignItems: 'center',
-        paddingTop: Theme.spacing.xl,
+        paddingHorizontal: Theme.spacing.m,
     },
-    exerciseTitle: {
-        color: Theme.colors.white,
-        fontSize: 28,
-        fontWeight: '300',
-        marginBottom: Theme.spacing.xs,
-    },
-    setInfo: {
-        color: Theme.colors.gray[500],
-        fontSize: 16,
-        marginBottom: Theme.spacing.xs,
-    },
-    repInstruction: {
-        color: Theme.colors.gray[300],
-        fontSize: 20,
-        marginBottom: Theme.spacing.xl,
-    },
-    imageContainer: {
-        width: '100%',
-        height: 250,
-        marginBottom: Theme.spacing.m,
-        alignItems: 'center',
+    imageSection: {
+        flex: 1,
         justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: Theme.spacing.s,
     },
     exerciseImage: {
         width: '100%',
         height: '100%',
+        maxHeight: 300,
     },
-    weightRepsView: {
-        flexDirection: 'row',
+    infoSection: {
         alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
+        marginBottom: Theme.spacing.l,
     },
-    viewText: {
-        color: Theme.colors.text,
-        fontSize: 18,
-    },
-    weightView: {
-        flex: 3,
-        marginRight: Theme.spacing.xs,
-        color: Theme.colors.gray[500],
-        borderColor: Theme.colors.gray[500],
-        borderWidth: 1,
-        borderRadius: 5,
-        padding: Theme.spacing.xs,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    repsView: {
-        flex: 3,
-        marginLeft: Theme.spacing.xs,
-        color: Theme.colors.gray[500],
-        borderColor: Theme.colors.gray[500],
-        borderWidth: 1,
-        borderRadius: 5,
-        padding: Theme.spacing.xs,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    bottomStrip: {
-        padding: Theme.spacing.m,
-        alignItems: 'center',
-        gap: Theme.spacing.m
-    },
-    bottomStripContent: {
-        width: '100%',
-        gap: Theme.spacing.s,
-    },
-    nextInfo: {
-        color: Theme.colors.text,
-        fontSize: 14,
-    },
-    nextSet: {
+    exerciseTitle: {
         color: Theme.colors.white,
-        fontSize: 18,
-        fontWeight: '500',
+        fontSize: 28,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 8,
     },
-    iconsRow: {
+    setBadge: {
         flexDirection: 'row',
-        gap: Theme.spacing.s,
-    },
-    iconWrapper: {
         alignItems: 'center',
+        backgroundColor: 'rgba(212, 255, 0, 0.1)',
+        paddingHorizontal: 12,
+        paddingVertical: 6,
+        borderRadius: 16,
+    },
+    setText: {
+        color: Theme.colors.primary,
+        fontSize: 14,
+        fontWeight: 'bold',
+    },
+    statsContainer: {
+        flexDirection: 'row',
+        gap: 12,
+        marginBottom: Theme.spacing.l,
+    },
+    statCard: {
+        flex: 1,
+        backgroundColor: Theme.colors.surface,
+        borderRadius: Theme.borderRadius.m,
+        padding: 16,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    statLabel: {
+        color: Theme.colors.gray[500],
+        fontSize: 12,
+        fontWeight: '600',
+        marginBottom: 4,
+        letterSpacing: 0.5,
+    },
+    statValue: {
+        color: Theme.colors.white,
+        fontSize: 24,
+        fontWeight: 'bold',
     },
     actionButtons: {
         flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
+        gap: 12,
+        marginBottom: Theme.spacing.m,
     },
-    finishText: {
-        color: Theme.colors.primary,
+    skipButton: {
+        flex: 1,
+    },
+    doneButton: {
+        flex: 2,
+    },
+    footer: {
+        backgroundColor: Theme.colors.surface,
+        paddingTop: Theme.spacing.m,
+        paddingBottom: Theme.spacing.xl, // Safe area padding
+        paddingHorizontal: Theme.spacing.m,
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24,
+    },
+    footerHeader: {
+        marginBottom: 12,
+    },
+    footerLabel: {
+        color: Theme.colors.gray[500],
+        fontSize: 12,
         fontWeight: 'bold',
+        letterSpacing: 1,
+    },
+    nextExerciseRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    nextThumb: {
+        width: 48,
+        height: 48,
+        borderRadius: 8,
+        backgroundColor: Theme.colors.background,
+        marginRight: 12,
+    },
+    nextInfoContainer: {
+        flex: 1,
+    },
+    nextTitle: {
+        color: Theme.colors.white,
         fontSize: 16,
-    }
+        fontWeight: '600',
+        marginBottom: 2,
+    },
+    nextDetails: {
+        color: Theme.colors.gray[400],
+        fontSize: 14,
+    },
+    finishFooter: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        paddingVertical: 12,
+    },
+    finishFooterText: {
+        color: Theme.colors.primary,
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
 });

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, FlatList, Sc
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { WORKOUT_PLANS } from '../../data/workoutPlans';
+import { useWorkoutStore } from '../../store/workoutStore';
 import { Theme } from '../../theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Screen } from '../../components/common/Screen';
@@ -11,7 +12,12 @@ type Props = NativeStackScreenProps<RootStackParamList, 'WorkoutDetails'>;
 
 export const WorkoutDetailsScreen: React.FC<Props> = ({ route, navigation }) => {
   const { planId } = route.params;
-  const plan = WORKOUT_PLANS.find(p => p.id === planId);
+  const customPlans = useWorkoutStore((state) => state.customPlans);
+
+  // Check both predefined and custom plans
+  const allPlans = [...WORKOUT_PLANS, ...customPlans];
+  const plan = allPlans.find(p => p.id === planId);
+
   const [selectedDay, setSelectedDay] = useState(1);
 
   if (!plan) return null;

@@ -6,6 +6,7 @@ import { Theme } from '../../theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Screen } from '../../components/common/Screen';
 import { PlanExercise, DayPlan, WorkoutPlan } from '../../data/workoutPlans';
+import { useWorkoutStore } from '../../store/workoutStore';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CreateCustomPlan'>;
 
@@ -19,6 +20,7 @@ interface CustomDay extends Omit<DayPlan, 'exercises'> {
 }
 
 export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
+    const addCustomPlan = useWorkoutStore((state) => state.addCustomPlan);
     const [step, setStep] = useState(1);
 
     // Plan Details
@@ -44,15 +46,17 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
             return;
         }
 
-        // Format sets as "12 x 3" (reps x sets)
-        const setsDisplay = `${reps} x ${numSets}`;
+        // Format sets as "12 + 12 + 12" (repeat reps for each set)
+        const numSetsInt = parseInt(numSets);
+        const setsArray = Array(numSetsInt).fill(reps);
+        const setsDisplay = setsArray.join(' + ');
 
         const newExercise: CustomExercise = {
             id: Date.now().toString(),
             tempId: Date.now().toString(),
             name: exerciseName,
             sets: setsDisplay,
-            weight: weight,
+            weight: `${weight} kg`,
         };
 
         const updatedDays = [...days];
@@ -144,11 +148,60 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
             return;
         }
 
-        // All validations passed
+        // Calculate stats
         const totalExercises = days.reduce((sum, day) => sum + day.exercises.length, 0);
         const restDayCount = days.filter(d => d.isRestDay).length;
 
-        // TODO: Save to store
+        // Estimate calories and weight (simple calculation)
+        const estimatedCalories = totalExercises * 12; // ~12 calories per exercise
+        const estimatedWeight = days.reduce((sum, day) => {
+            return sum + day.exercises.reduce((daySum, ex) => {
+                const weightNum = parseFloat(ex.weight) || 0;
+                return daySum + weightNum;
+            }, 0);
+        }, 0);
+        const estimatedMinutes = totalExercises * 2; // ~2 minutes per exercise
+
+        // Create WorkoutPlan object
+        const newPlan: WorkoutPlan = {
+            id: `custom-${Date.now()}`,
+            title: planName,
+            subtitle: 'Custom Plan',
+            frequency: `${daysPerWeek} days/week`,
+            difficulty: difficulty,
+            restBetweenSets: 60,
+            restBetweenExercises: 90,
+            stats: {
+                calories: estimatedCalories,
+                weight: estimatedWeight,
+                minutes: estimatedMinutes,
+            },
+            schedule: days.map(day => {
+                // Calculate per-day stats
+                const dayExerciseCount = day.exercises.length;
+                const dayCalories = dayExerciseCount * 12; // ~12 calories per exercise
+                const dayWeight = day.exercises.reduce((sum, ex) => {
+                    const weightNum = parseFloat(ex.weight) || 0;
+                    return sum + weightNum;
+                }, 0);
+                const dayMinutes = dayExerciseCount * 2; // ~2 minutes per exercise
+
+                return {
+                    day: day.day,
+                    title: day.isRestDay ? `${day.title} (Rest)` : day.title,
+                    stats: day.isRestDay ? undefined : {
+                        calories: dayCalories,
+                        weight: dayWeight,
+                        minutes: dayMinutes,
+                    },
+                    exercises: day.exercises.map(({ tempId, ...exercise }) => exercise), // Remove tempId
+                };
+            }),
+        };
+
+        // Save to store
+        addCustomPlan(newPlan);
+
         Alert.alert(
             'Success',
             `Custom plan "${planName}" created with ${days.length} day(s) (${restDayCount} rest day${restDayCount !== 1 ? 's' : ''}) and ${totalExercises} exercise(s)!`,

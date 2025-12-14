@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { WorkoutPlan } from '../data/workoutPlans';
 
 export interface CompletedWorkout {
   id: string;
@@ -25,17 +26,21 @@ export interface ActiveSession {
 interface StoreState {
   completedWorkouts: CompletedWorkout[];
   activeSession: ActiveSession | null;
+  customPlans: WorkoutPlan[];
   addCompletedWorkout: (workout: CompletedWorkout) => void;
   startSession: (session: ActiveSession) => void;
   updateSession: (updates: Partial<ActiveSession>) => void;
   clearSession: () => void;
+  addCustomPlan: (plan: WorkoutPlan) => void;
+  getCustomPlans: () => WorkoutPlan[];
 }
 
 export const useWorkoutStore = create<StoreState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       completedWorkouts: [],
       activeSession: null,
+      customPlans: [],
       addCompletedWorkout: (workout) => set((state) => ({ 
         completedWorkouts: [...state.completedWorkouts, workout] 
       })),
@@ -44,6 +49,10 @@ export const useWorkoutStore = create<StoreState>()(
         activeSession: state.activeSession ? { ...state.activeSession, ...updates } : null
       })),
       clearSession: () => set({ activeSession: null }),
+      addCustomPlan: (plan) => set((state) => ({
+        customPlans: [...state.customPlans, plan]
+      })),
+      getCustomPlans: () => get().customPlans,
     }),
     {
       name: 'workout-storage',

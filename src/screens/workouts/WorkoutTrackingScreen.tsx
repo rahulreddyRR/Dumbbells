@@ -21,7 +21,11 @@ const parseSets = (setsStr: string): number[] => {
 
 export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) => {
     const { planId, day } = route.params;
-    const plan = WORKOUT_PLANS.find(p => p.id === planId);
+    const customPlans = useWorkoutStore((state) => state.customPlans);
+
+    // Check both predefined and custom plans
+    const allPlans = [...WORKOUT_PLANS, ...customPlans];
+    const plan = allPlans.find(p => p.id === planId);
     const dayPlan = plan?.schedule.find(d => d.day === day);
 
     // Flatten exercises into a linear list of "SetItems" for easier tracking

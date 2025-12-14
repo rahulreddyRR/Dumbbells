@@ -17,8 +17,6 @@ const parseSets = (setsStr: string): number[] => {
     return setsStr.split('+').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
 };
 
-const REST_TIME_SET = 60; // 60 seconds
-const REST_TIME_EXERCISE = 90; // 90 seconds
 
 
 export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) => {

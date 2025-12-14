@@ -2,7 +2,7 @@ export interface Exercise {
   id: string;
   name: string;
   muscle: string;
-  image?: any; // Will use require() or uri
+  image: any; // Will use require() or uri
 }
 
 export const EXERCISES: Exercise[] = [

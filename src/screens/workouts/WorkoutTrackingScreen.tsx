@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { WORKOUT_PLANS, PlanExercise } from '../../data/workoutPlans';
@@ -311,6 +311,15 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
 
             {/* Main Content */}
             <View style={styles.mainContent}>
+                {currentStep.exercise.image && (
+                    <View style={styles.imageContainer}>
+                        <Image
+                            source={currentStep.exercise.image}
+                            style={styles.exerciseImage}
+                            resizeMode="contain"
+                        />
+                    </View>
+                )}
                 <Text style={styles.exerciseTitle}>{currentStep.exercise.name}</Text>
                 <Text style={styles.setInfo}>Set {currentStep.setIndex} of {currentStep.totalSets}</Text>
             </View>
@@ -405,6 +414,17 @@ const styles = StyleSheet.create({
         color: Theme.colors.gray[300],
         fontSize: 20,
         marginBottom: Theme.spacing.xl,
+    },
+    imageContainer: {
+        width: '100%',
+        height: 250,
+        marginBottom: Theme.spacing.m,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    exerciseImage: {
+        width: '100%',
+        height: '100%',
     },
     weightRepsView: {
         flexDirection: 'row',

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, Modal, TouchableWithoutFeedback, Image } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { WORKOUT_PLANS } from '../../data/workoutPlans';
@@ -19,6 +19,7 @@ export const WorkoutDetailsScreen: React.FC<Props> = ({ route, navigation }) => 
   const plan = allPlans.find(p => p.id === planId);
 
   const [selectedDay, setSelectedDay] = useState(1);
+  const [selectedExerciseImage, setSelectedExerciseImage] = useState<any>(null);
 
   if (!plan) return null;
 
@@ -148,7 +149,10 @@ export const WorkoutDetailsScreen: React.FC<Props> = ({ route, navigation }) => 
                 </View>
               </View>
 
-              <TouchableOpacity style={styles.exerciseAction}>
+              <TouchableOpacity
+                style={styles.exerciseAction}
+                onPress={() => setSelectedExerciseImage(item.image)}
+              >
                 <Ionicons name="information-circle-outline" size={20} color={Theme.colors.gray[500]} />
               </TouchableOpacity>
             </View>
@@ -169,6 +173,30 @@ export const WorkoutDetailsScreen: React.FC<Props> = ({ route, navigation }) => 
           <Text style={styles.startButtonText}>START WORKOUT</Text>
         </TouchableOpacity>
       </View>
+
+      {/* Exercise Image Modal */}
+      <Modal
+        visible={!!selectedExerciseImage}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => setSelectedExerciseImage(null)}
+      >
+        <TouchableWithoutFeedback onPress={() => setSelectedExerciseImage(null)}>
+          <View style={styles.modalOverlay}>
+            <TouchableWithoutFeedback>
+              <View style={styles.modalContent}>
+                {selectedExerciseImage && (
+                  <Image
+                    source={selectedExerciseImage}
+                    style={styles.modalImage}
+                    resizeMode="contain"
+                  />
+                )}
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </Screen>
   );
 };
@@ -395,5 +423,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     letterSpacing: 1,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: Theme.spacing.l,
+  },
+  modalContent: {
+    width: '100%',
+    aspectRatio: 1,
+    backgroundColor: Theme.colors.surface,
+    borderRadius: Theme.borderRadius.l,
+    padding: Theme.spacing.m,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modalImage: {
+    width: '100%',
+    height: '100%',
   },
 });

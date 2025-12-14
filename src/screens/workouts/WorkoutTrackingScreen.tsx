@@ -1,14 +1,17 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { WORKOUT_PLANS, PlanExercise } from '../../data/workoutPlans';
 import { Theme } from '../../theme';
 import { useWorkoutStore, ActiveSession } from '../../store/workoutStore';
+import { useAppSettingsStore } from '../../store/appSettingsStore';
+import { ttsService } from '../../services/ttsService';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Screen } from '../../components/common/Screen';
 import { Button } from '../../components/common/Button';
 import { RestTimer } from '../../components/workouts/RestTimer';
+import { ConfirmationModal } from '../../components/common/ConfirmationModal';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'WorkoutTracking'>;
 
@@ -50,6 +53,9 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
+    // Get sound effects setting
+    const soundEffects = useAppSettingsStore((state) => state.settings.soundEffects);
+
     if (!plan || !dayPlan || workoutSequence.length === 0) {
         return (
             <View style={styles.container}>
@@ -68,6 +74,18 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
 
     // Rest Timer State
     const [isResting, setIsResting] = React.useState(false);
+
+    // Modal State
+    const [modalVisible, setModalVisible] = React.useState(false);
+    const [modalConfig, setModalConfig] = React.useState<{
+        title: string;
+        message: string;
+        buttons: { text: string; onPress: () => void; style?: 'default' | 'cancel' | 'destructive' }[];
+    }>({
+        title: '',
+        message: '',
+        buttons: []
+    });
 
     React.useEffect(() => {
         if (activeSession?.restEndTime) {
@@ -102,6 +120,19 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
         }
     }, [planId, day]);
 
+    // TTS: Announce Exercise
+    React.useEffect(() => {
+        if (!isResting && workoutSequence.length > 0 && currentIndex < workoutSequence.length) {
+            const step = workoutSequence[currentIndex];
+            ttsService.announceExercise(
+                step.exercise.name,
+                `${step.reps}`,
+                step.exercise.weight,
+                soundEffects
+            );
+        }
+    }, [currentIndex, isResting, workoutSequence, soundEffects]);
+
     const saveAndFinish = () => {
         if (!activeSession) return;
 
@@ -125,14 +156,15 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
 
     const handleFinishPress = () => {
         if (currentIndex < workoutSequence.length - 1) {
-            Alert.alert(
-                "Finish Workout?",
-                `You have ${workoutSequence.length - currentIndex} sets remaining. Finish anyway?`,
-                [
-                    { text: "Cancel", style: "cancel" },
-                    { text: "Finish", onPress: saveAndFinish }
+            setModalConfig({
+                title: 'Finish Workout?',
+                message: `You have ${workoutSequence.length - currentIndex} sets remaining. Finish anyway?`,
+                buttons: [
+                    { text: 'Cancel', onPress: () => setModalVisible(false), style: 'cancel' },
+                    { text: 'Finish', onPress: () => { setModalVisible(false); saveAndFinish(); }, style: 'default' }
                 ]
-            );
+            });
+            setModalVisible(true);
         } else {
             saveAndFinish();
         }
@@ -142,6 +174,7 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
         if (!activeSession) return;
 
         const currentStep = workoutSequence[currentIndex];
+        const isLastStep = currentIndex === workoutSequence.length - 1;
 
         // Calculate stats (unchanged)
         const weightNum = parseFloat(currentStep.exercise.weight) || 0;
@@ -172,10 +205,18 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
                 : null
         };
 
+        // TTS: Announce Rest
+        if (restDuration > 0 && !isLastStep) {
+            ttsService.announceRest(restDuration, soundEffects);
+        }
+
         if (isLastStep) {
             // ... final save logic (unchanged essentially, just ensure no rest set if finishing)
             const startTime = new Date(activeSession.startTime).getTime();
             const durationMinutes = Math.max(1, Math.round((Date.now() - startTime) / 60000));
+
+            // TTS: Announce Workout Complete
+            ttsService.announceWorkoutComplete(soundEffects);
 
             addCompletedWorkout({
                 id: Date.now().toString(),
@@ -200,6 +241,7 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
     const handleTimerComplete = () => {
         setIsResting(false);
         updateSession({ restEndTime: null });
+        ttsService.announceRestComplete(soundEffects);
     };
 
     const handleTimerAdjust = (seconds: number) => {
@@ -220,15 +262,28 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
     const handleSkip = () => handleStepCompletion(true);
 
     const handleQuit = () => {
-        Alert.alert(
-            "Quit Workout?",
-            "Your progress is saved. You can resume later or finish now.",
-            [
-                { text: "Resume Later", onPress: () => navigation.goBack() }, // Just go back, session stays in store
-                { text: "Complete Day", onPress: saveAndFinish }, // Save partial and finish
-                { text: "Discard", style: 'destructive', onPress: () => { clearSession(); navigation.goBack(); } }
+        setModalConfig({
+            title: 'Quit Workout?',
+            message: 'Your progress is saved. You can resume later or finish now.',
+            buttons: [
+                {
+                    text: 'Resume Later',
+                    onPress: () => { setModalVisible(false); navigation.goBack(); },
+                    style: 'default'
+                },
+                {
+                    text: 'Complete Day',
+                    onPress: () => { setModalVisible(false); saveAndFinish(); },
+                    style: 'default'
+                },
+                {
+                    text: 'Discard',
+                    onPress: () => { setModalVisible(false); clearSession(); navigation.goBack(); },
+                    style: 'destructive'
+                }
             ]
-        );
+        });
+        setModalVisible(true);
     };
 
     return (
@@ -293,7 +348,15 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
                     </View>
                 </View>
             </View>
-        </Screen>
+
+            <ConfirmationModal
+                visible={modalVisible}
+                title={modalConfig.title}
+                message={modalConfig.message}
+                buttons={modalConfig.buttons}
+                onCancel={() => setModalVisible(false)}
+            />
+        </Screen >
 
     );
 };

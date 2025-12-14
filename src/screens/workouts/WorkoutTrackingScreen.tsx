@@ -54,7 +54,7 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
     const [currentIndex, setCurrentIndex] = useState(0);
 
     // Get sound effects setting
-    const soundEffects = useAppSettingsStore((state) => state.settings.soundEffects);
+    const { soundEffects, restTimerSound } = useAppSettingsStore((state) => state.settings);
 
     if (!plan || !dayPlan || workoutSequence.length === 0) {
         return (
@@ -207,7 +207,7 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
 
         // TTS: Announce Rest
         if (restDuration > 0 && !isLastStep) {
-            ttsService.announceRest(restDuration, soundEffects);
+            ttsService.announceRest(restDuration, restTimerSound);
         }
 
         if (isLastStep) {
@@ -241,7 +241,7 @@ export const WorkoutTrackingScreen: React.FC<Props> = ({ route, navigation }) =>
     const handleTimerComplete = () => {
         setIsResting(false);
         updateSession({ restEndTime: null });
-        ttsService.announceRestComplete(soundEffects);
+        ttsService.announceRestComplete(restTimerSound);
     };
 
     const handleTimerAdjust = (seconds: number) => {

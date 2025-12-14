@@ -163,20 +163,6 @@ export const SettingsScreen = () => {
             onSwitchChange={(value) => updateAppSettings({ soundEffects: value })}
           />
           <SettingRow
-            icon="phone-portrait-outline"
-            label="Haptic Feedback"
-            isSwitch
-            switchValue={appSettings.hapticFeedback}
-            onSwitchChange={(value) => updateAppSettings({ hapticFeedback: value })}
-          />
-          <SettingRow
-            icon="notifications-outline"
-            label="Workout Reminders"
-            isSwitch
-            switchValue={appSettings.workoutReminders}
-            onSwitchChange={(value) => updateAppSettings({ workoutReminders: value })}
-          />
-          <SettingRow
             icon="alarm-outline"
             label="Rest Timer Sound"
             isSwitch

@@ -28,7 +28,9 @@ export const PredefinedWorkoutsScreen = () => {
         ListHeaderComponent={
           <Text style={styles.headerTitle}>Choose Your Plan</Text>
         }
-        ListFooterComponent={<CreateCustomCard />}
+        ListFooterComponent={
+          <CreateCustomCard onPress={() => navigation.navigate('CreateCustomPlan')} />
+        }
         showsVerticalScrollIndicator={false}
       />
     </ScreenContainer>

@@ -3,9 +3,13 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Theme } from '../../theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export const CreateCustomCard = () => {
+interface CreateCustomCardProps {
+  onPress?: () => void;
+}
+
+export const CreateCustomCard: React.FC<CreateCustomCardProps> = ({ onPress }) => {
   return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.8}>
+    <TouchableOpacity style={styles.container} activeOpacity={0.8} onPress={onPress}>
       <View style={styles.content}>
         <View style={styles.iconContainer}>
           <Ionicons name="add" size={32} color={Theme.colors.black} />

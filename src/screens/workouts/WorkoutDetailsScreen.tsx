@@ -224,13 +224,15 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   planSubtitle: {
-    color: Theme.colors.gray[300],
+    color: Theme.colors.white,
     fontSize: 16,
     marginBottom: 8,
+    opacity: 0.9,
   },
   frequency: {
-    color: Theme.colors.gray[400],
+    color: Theme.colors.white,
     fontSize: 14,
+    opacity: 0.8,
   },
   statsSection: {
     flexDirection: 'row',

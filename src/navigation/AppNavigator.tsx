@@ -7,6 +7,7 @@ export type RootStackParamList = {
   Main: undefined;
   WorkoutDetails: { planId: string };
   WorkoutTracking: { planId: string; day: number };
+  CreateCustomPlan: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -27,6 +28,10 @@ export const AppNavigator = () => {
         <Stack.Screen
           name="WorkoutTracking"
           getComponent={() => require('../screens/workouts/WorkoutTrackingScreen').WorkoutTrackingScreen}
+        />
+        <Stack.Screen
+          name="CreateCustomPlan"
+          getComponent={() => require('../screens/workouts/CreateCustomPlanScreen').CreateCustomPlanScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

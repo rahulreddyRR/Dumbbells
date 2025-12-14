@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { Screen } from '../../components/common/Screen';
+import { ScreenContainer } from '../../components/common/Screen';
 import { Theme } from '../../theme';
 import { SearchBar } from '../../components/common/SearchBar';
 import { CategoryFilter } from '../../components/workouts/CategoryFilter';
@@ -20,12 +20,12 @@ export const IndividualWorkoutsScreen = () => {
   }, [searchQuery, selectedCategory]);
 
   return (
-    <Screen>
+    <ScreenContainer>
       <View style={styles.container}>
         <View style={styles.header}>
-          <SearchBar 
-            value={searchQuery} 
-            onChangeText={setSearchQuery} 
+          <SearchBar
+            value={searchQuery}
+            onChangeText={setSearchQuery}
             style={styles.searchBar}
           />
           <View style={styles.filterContainer}>
@@ -47,7 +47,7 @@ export const IndividualWorkoutsScreen = () => {
           showsVerticalScrollIndicator={false}
         />
       </View>
-    </Screen>
+    </ScreenContainer>
   );
 };
 

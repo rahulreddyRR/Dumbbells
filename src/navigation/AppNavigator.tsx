@@ -4,25 +4,29 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { MainTabNavigator } from './MainTabNavigator';
 
 export type RootStackParamList = {
+  Main: undefined;
   WorkoutDetails: { planId: string };
+  WorkoutTracking: { planId: string; day: number };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-// Lazy load to avoid cycle or early import issues if needed, but direct import is fine here
-import { WorkoutDetailsScreen } from '../screens/workouts/WorkoutDetailsScreen';
 
 export const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen 
-          name="Main" 
-          component={MainTabNavigator} 
+        <Stack.Screen
+          name="Main"
+          component={MainTabNavigator}
         />
         <Stack.Screen
           name="WorkoutDetails"
-          component={WorkoutDetailsScreen}
+          getComponent={() => require('../screens/workouts/WorkoutDetailsScreen').WorkoutDetailsScreen}
+        />
+        <Stack.Screen
+          name="WorkoutTracking"
+          getComponent={() => require('../screens/workouts/WorkoutTrackingScreen').WorkoutTrackingScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

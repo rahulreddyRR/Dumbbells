@@ -8,16 +8,16 @@ interface ScreenProps {
   style?: ViewStyle;
 }
 
-export const Screen: React.FC<ScreenProps> = ({ children, style }) => {
+export const ScreenContainer: React.FC<ScreenProps> = ({ children, style }) => {
   return (
-      <View style={[styles.container, style]}>
-        {children}
-      </View>
+    <View style={[styles.container, style]}>
+      {children}
+    </View>
   );
 };
 
 
-export const ScreenWithStatusBarAndSafeArea: React.FC<ScreenProps> = ({ children, style }) => {
+export const Screen: React.FC<ScreenProps> = ({ children, style }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="light-content" backgroundColor={Theme.colors.background} />

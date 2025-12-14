@@ -5,7 +5,7 @@ import { RootStackParamList } from '../../navigation/AppNavigator';
 import { WORKOUT_PLANS } from '../../data/workoutPlans';
 import { Theme } from '../../theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { ScreenWithStatusBarAndSafeArea } from '../../components/common/Screen';
+import { Screen } from '../../components/common/Screen';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'WorkoutDetails'>;
 
@@ -34,7 +34,7 @@ export const WorkoutDetailsScreen: React.FC<Props> = ({ route, navigation }) => 
   };
 
   return (
-    <ScreenWithStatusBarAndSafeArea>
+    <Screen>
       <View style={styles.container}>
         <ImageBackground
           source={plan.image || { uri: 'https://via.placeholder.com/400' }}
@@ -107,7 +107,7 @@ export const WorkoutDetailsScreen: React.FC<Props> = ({ route, navigation }) => 
           />
         </View>
       </View>
-    </ScreenWithStatusBarAndSafeArea>
+    </Screen>
 
   );
 };

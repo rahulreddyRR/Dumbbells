@@ -10,6 +10,7 @@ export const Colors = {
   error: '#FF453A',
   success: '#32D74B',
   warning: '#FF9F0A',
+  border: '#3A3A3C', // Added for consistency
   gray: {
     100: '#1C1C1E', // Darkest gray
     200: '#2C2C2E',

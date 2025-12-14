@@ -14,17 +14,17 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise }) => {
   return (
     <TouchableOpacity style={styles.container}>
       <View style={styles.imageContainer}>
-          {/* Placeholder or actual image */}
-          {exercise.image ? (
-            <Image source={exercise.image} style={styles.image} resizeMode="cover"/>
-          ) : (
-            <View style={[styles.image, styles.placeholder]}>
-               <Text style={styles.placeholderText}>{exercise.name[0]}</Text>
-            </View>
-          )}
+        {/* Placeholder or actual image */}
+        {exercise.image ? (
+          <Image source={exercise.image} style={styles.image} resizeMode="contain" />
+        ) : (
+          <View style={[styles.image, styles.placeholder]}>
+            <Text style={styles.placeholderText}>{exercise.name[0]}</Text>
+          </View>
+        )}
       </View>
       <View style={styles.content}>
-        <Text style={styles.name} numberOfLines={1}>{exercise.name}</Text>
+        <Text style={styles.name} numberOfLines={2}>{exercise.name}</Text>
         <Text style={styles.muscle}>{exercise.muscle}</Text>
       </View>
     </TouchableOpacity>
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 4,
+    paddingBottom: 8,
   },
   name: {
     color: Theme.colors.white,

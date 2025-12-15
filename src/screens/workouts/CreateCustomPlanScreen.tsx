@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert, KeyboardAvoidingView, Platform, Modal } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { Theme } from '../../theme';
@@ -8,6 +8,7 @@ import { Screen } from '../../components/common/Screen';
 import { PlanExercise, DayPlan, WorkoutPlan } from '../../data/workoutPlans';
 import { useWorkoutStore } from '../../store/workoutStore';
 import { ConfirmationModal } from '../../components/common/ConfirmationModal';
+import { EXERCISES, CATEGORIES } from '../../data/exercises';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CreateCustomPlan'>;
 
@@ -51,9 +52,15 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
 
     // Exercise Form
     const [exerciseName, setExerciseName] = useState('');
+    const [selectedExerciseId, setSelectedExerciseId] = useState('');
+    const [selectedExerciseImage, setSelectedExerciseImage] = useState<any>(null);
     const [numSets, setNumSets] = useState('');
     const [reps, setReps] = useState('');
     const [weight, setWeight] = useState('');
+
+    // Exercise Selector Modal
+    const [showExerciseSelector, setShowExerciseSelector] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState('All');
 
     const addExercise = () => {
         if (!exerciseName || !numSets || !reps || !weight) {
@@ -72,11 +79,12 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
         const setsDisplay = setsArray.join(' + ');
 
         const newExercise: CustomExercise = {
-            id: Date.now().toString(),
+            id: selectedExerciseId || Date.now().toString(),
             tempId: Date.now().toString(),
             name: exerciseName,
             sets: setsDisplay,
             weight: `${weight} kg`,
+            image: selectedExerciseImage,
         };
 
         const updatedDays = [...days];
@@ -85,6 +93,8 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
 
         // Clear form
         setExerciseName('');
+        setSelectedExerciseId('');
+        setSelectedExerciseImage(null);
         setNumSets('');
         setReps('');
         setWeight('');
@@ -443,13 +453,15 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
                         <View style={styles.exerciseForm}>
                             <View style={styles.inputGroup}>
                                 <Text style={styles.label}>Exercise Name</Text>
-                                <TextInput
-                                    style={styles.input}
-                                    value={exerciseName}
-                                    onChangeText={setExerciseName}
-                                    placeholder="e.g., Bench Press"
-                                    placeholderTextColor={Theme.colors.gray[500]}
-                                />
+                                <TouchableOpacity
+                                    style={styles.exerciseSelector}
+                                    onPress={() => setShowExerciseSelector(true)}
+                                >
+                                    <Text style={exerciseName ? styles.exerciseSelectorText : styles.exerciseSelectorPlaceholder}>
+                                        {exerciseName || 'Select an exercise'}
+                                    </Text>
+                                    <Ionicons name="chevron-down" size={20} color={Theme.colors.gray[500]} />
+                                </TouchableOpacity>
                             </View>
 
                             <View style={styles.row}>
@@ -588,6 +600,75 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
                 buttons={modalConfig.buttons}
                 onCancel={() => setModalVisible(false)}
             />
+
+            {/* Exercise Selector Modal */}
+            <Modal visible={showExerciseSelector} transparent animationType="slide">
+                <View style={styles.exerciseModalOverlay}>
+                    <View style={styles.exerciseModalContent}>
+                        <View style={styles.exerciseModalHeader}>
+                            <Text style={styles.exerciseModalTitle}>Select Exercise</Text>
+                            <TouchableOpacity onPress={() => setShowExerciseSelector(false)}>
+                                <Ionicons name="close" size={24} color={Theme.colors.white} />
+                            </TouchableOpacity>
+                        </View>
+
+                        {/* Category Filter */}
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            style={styles.categoryScroll}
+                        >
+                            {CATEGORIES.map((category) => {
+                                console.log(category);
+                                return (
+                                    <TouchableOpacity
+                                        key={category}
+                                        style={[
+                                            styles.categoryChip,
+                                            selectedCategory === category && styles.categoryChipActive
+                                        ]}
+                                        onPress={() => setSelectedCategory(category)}
+                                    >
+                                        <Text style={[
+                                            styles.categoryChipText,
+                                            selectedCategory === category && {
+                                                color: '#000000',
+                                                fontWeight: 'bold',
+                                            }
+                                        ]}>
+                                            {category}
+                                        </Text>
+                                    </TouchableOpacity>
+                                )
+                            })}
+                        </ScrollView>
+
+                        {/* Exercise List */}
+                        <ScrollView style={styles.exerciseModalList}>
+                            {EXERCISES
+                                .filter(ex => selectedCategory === 'All' || ex.muscle === selectedCategory)
+                                .map((exercise) => (
+                                    <TouchableOpacity
+                                        key={exercise.id}
+                                        style={styles.exerciseItem}
+                                        onPress={() => {
+                                            setExerciseName(exercise.name);
+                                            setSelectedExerciseId(exercise.id);
+                                            setSelectedExerciseImage(exercise.image);
+                                            setShowExerciseSelector(false);
+                                        }}
+                                    >
+                                        <View style={styles.exerciseItemContent}>
+                                            <Text style={styles.exerciseItemName}>{exercise.name}</Text>
+                                            <Text style={styles.exerciseItemMuscle}>{exercise.muscle}</Text>
+                                        </View>
+                                        <Ionicons name="chevron-forward" size={20} color={Theme.colors.gray[600]} />
+                                    </TouchableOpacity>
+                                ))}
+                        </ScrollView>
+                    </View>
+                </View>
+            </Modal>
         </Screen>
     );
 };
@@ -930,5 +1011,106 @@ const styles = StyleSheet.create({
         color: Theme.colors.background,
         fontSize: 16,
         fontWeight: 'bold',
+    },
+    // Exercise Selector Styles
+    exerciseSelector: {
+        backgroundColor: Theme.colors.surface,
+        borderRadius: Theme.borderRadius.m,
+        padding: Theme.spacing.m,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderWidth: 1,
+        borderColor: Theme.colors.gray[700],
+    },
+    exerciseSelectorText: {
+        color: Theme.colors.white,
+        fontSize: 16,
+    },
+    exerciseSelectorPlaceholder: {
+        color: Theme.colors.gray[500],
+        fontSize: 16,
+    },
+    // Exercise Modal Styles
+    exerciseModalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        justifyContent: 'flex-end',
+    },
+    exerciseModalContent: {
+        backgroundColor: Theme.colors.background,
+        borderTopLeftRadius: Theme.borderRadius.xl,
+        borderTopRightRadius: Theme.borderRadius.xl,
+        maxHeight: '60%',
+        paddingBottom: 20,
+    },
+    exerciseModalHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: Theme.spacing.m,
+        borderBottomWidth: 1,
+        borderBottomColor: Theme.colors.surface,
+    },
+    exerciseModalTitle: {
+        color: Theme.colors.white,
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    categoryScroll: {
+        paddingHorizontal: Theme.spacing.m,
+        paddingVertical: Theme.spacing.s,
+        marginBottom: Theme.spacing.s,
+        minHeight: 58,
+    },
+    categoryChip: {
+        paddingHorizontal: 20,
+        paddingVertical: 12,
+        borderRadius: Theme.borderRadius.l,
+        backgroundColor: Theme.colors.surface,
+        marginRight: 10,
+        borderWidth: 1,
+        borderColor: Theme.colors.gray[700],
+        minWidth: 80,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    categoryChipActive: {
+        backgroundColor: Theme.colors.primary,
+        borderColor: Theme.colors.primary,
+    },
+    categoryChipText: {
+        color: Theme.colors.white,
+        fontSize: 15,
+        fontWeight: '600',
+    },
+    categoryChipTextActive: {
+        color: '#000000',
+        fontWeight: 'bold',
+    },
+    exerciseModalList: {
+        paddingHorizontal: Theme.spacing.m,
+    },
+    exerciseItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: Theme.spacing.m,
+        backgroundColor: Theme.colors.surface,
+        borderRadius: Theme.borderRadius.m,
+        marginBottom: 8,
+    },
+    exerciseItemContent: {
+        flex: 1,
+    },
+    exerciseItemName: {
+        color: Theme.colors.white,
+        fontSize: 16,
+        fontWeight: '600',
+        marginBottom: 4,
+    },
+    exerciseItemMuscle: {
+        color: Theme.colors.gray[500],
+        fontSize: 13,
     },
 });

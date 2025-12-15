@@ -41,7 +41,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     subtitle: 'Start your journey',
     frequency: 'Daily',
     difficulty: 'Beginner',
-    image: require('../assets/plans/beginner.png'),
+    image: null,
     restBetweenSets: 60,
     restBetweenExercises: 90,
     stats: {
@@ -70,7 +70,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     subtitle: 'High intensity cardio',
     frequency: 'Daily',
     difficulty: 'Intermediate',
-    image: require('../assets/plans/weight_loss.png'),
+    image: null,
     restBetweenSets: 45,
     restBetweenExercises: 60,
     stats: {
@@ -103,7 +103,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     subtitle: 'Compound movements',
     frequency: '3 days/week',
     difficulty: 'Intermediate',
-    image: require('../assets/plans/full_body.png'),
+    image: null,
     restBetweenSets: 60,
     restBetweenExercises: 120,
     stats: {

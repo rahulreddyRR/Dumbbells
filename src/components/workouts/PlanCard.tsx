@@ -9,20 +9,37 @@ const { width } = Dimensions.get('window');
 interface PlanCardProps {
   plan: WorkoutPlan;
   onPress: () => void;
+  onDelete?: () => void;
+  isCustom?: boolean;
 }
 
-export const PlanCard: React.FC<PlanCardProps> = ({ plan, onPress }) => {
+export const PlanCard: React.FC<PlanCardProps> = ({ plan, onPress, onDelete, isCustom }) => {
   return (
     <TouchableOpacity style={styles.container} activeOpacity={0.9} onPress={onPress}>
       <View style={styles.imageContainer}>
         {plan.image ? (
-            <Image source={plan.image} style={styles.image} resizeMode="cover" />
+          <Image source={plan.image} style={styles.image} resizeMode="cover" />
         ) : (
-            <View style={[styles.image, styles.placeholder]}>
-                <Ionicons name="barbell" size={48} color={Theme.colors.gray[500]} />
-            </View>
+          <View style={[styles.image, styles.placeholder]}>
+            <Ionicons name="barbell" size={48} color={Theme.colors.gray[500]} />
+          </View>
         )}
         <View style={styles.overlay} />
+
+        {/* Delete button for custom plans */}
+        {isCustom && onDelete && (
+          <TouchableOpacity
+            style={styles.deleteButton}
+            onPress={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
+            activeOpacity={0.7}
+          >
+            <Ionicons name="trash-outline" size={20} color={Theme.colors.white} />
+          </TouchableOpacity>
+        )}
+
         <View style={styles.content}>
           <View style={styles.badge}>
             <Text style={styles.badgeText}>{plan.difficulty.toUpperCase()}</Text>
@@ -102,5 +119,17 @@ const styles = StyleSheet.create({
     color: Theme.colors.gray[800],
     fontSize: 12,
     marginLeft: 6,
+  },
+  deleteButton: {
+    position: 'absolute',
+    top: 12,
+    right: 12,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10,
   },
 });

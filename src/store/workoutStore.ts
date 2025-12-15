@@ -35,6 +35,7 @@ interface StoreState {
   getCustomPlans: () => WorkoutPlan[];
   clearWorkoutHistory: () => void;
   deleteCustomPlans: () => void;
+  deleteCustomPlan: (planId: string) => void;
 }
 
 export const useWorkoutStore = create<StoreState>()(
@@ -57,6 +58,9 @@ export const useWorkoutStore = create<StoreState>()(
       getCustomPlans: () => get().customPlans,
       clearWorkoutHistory: () => set({ completedWorkouts: [] }),
       deleteCustomPlans: () => set({ customPlans: [] }),
+      deleteCustomPlan: (planId) => set((state) => ({
+        customPlans: state.customPlans.filter(plan => plan.id !== planId)
+      })),
     }),
     {
       name: 'workout-storage',

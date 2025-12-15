@@ -5,6 +5,7 @@ import { RootStackParamList } from '../../navigation/AppNavigator';
 import { Theme } from '../../theme';
 import { WORKOUT_PLANS } from '../../data/workoutPlans';
 import { useWorkoutStore } from '../../store/workoutStore';
+import { useUserProfileStore } from '../../store/userProfileStore';
 import { PlanCard } from '../../components/workouts/PlanCard';
 import { CreateCustomCard } from '../../components/workouts/CreateCustomCard';
 import { ScreenContainer } from '../../components/common/Screen';
@@ -15,6 +16,7 @@ type Props = NativeStackScreenProps<RootStackParamList>;
 export const PredefinedWorkoutsScreen: React.FC<Props> = ({ navigation }) => {
   const customPlans = useWorkoutStore((state) => state.customPlans);
   const deleteCustomPlan = useWorkoutStore((state) => state.deleteCustomPlan);
+  const userName = useUserProfileStore((state) => state.profile.name);
 
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [planToDelete, setPlanToDelete] = useState<{ id: string; title: string } | null>(null);
@@ -43,7 +45,7 @@ export const PredefinedWorkoutsScreen: React.FC<Props> = ({ navigation }) => {
     <ScreenContainer>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>Workout Plans</Text>
+          <Text style={styles.title}>Hey {userName || 'there'}! 💪</Text>
           <Text style={styles.subtitle}>Choose your fitness journey</Text>
         </View>
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { Theme } from '../../theme';
@@ -567,9 +567,19 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
                 {renderStepIndicator()}
 
                 {/* Content */}
-                <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-                    {step === 1 ? renderStep1() : renderStep2()}
-                </ScrollView>
+                <KeyboardAvoidingView
+                    style={{ flex: 1 }}
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+                >
+                    <ScrollView
+                        style={styles.content}
+                        contentContainerStyle={{ paddingBottom: 150 }}
+                        showsVerticalScrollIndicator={false}
+                    >
+                        {step === 1 ? renderStep1() : renderStep2()}
+                    </ScrollView>
+                </KeyboardAvoidingView>
             </View>
             <ConfirmationModal
                 visible={modalVisible}

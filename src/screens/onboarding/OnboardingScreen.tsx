@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, ScrollView, Alert, Platform, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView, Alert, Platform, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { Screen } from '../../components/common/Screen';
@@ -93,43 +93,49 @@ export const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Screen>
-            <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+            <KeyboardAvoidingView
+                style={styles.keyboardAvoidingView}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+            >
+                <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
 
-                <View style={styles.header}>
-                    <View style={styles.iconContainer}>
-                        <Ionicons name="barbell" size={40} color={Theme.colors.primary} />
-                    </View>
-                    <Text style={styles.title}>Welcome to Dumbbells</Text>
-                    <Text style={styles.subtitle}>Let's get to know you better to personalize your workout experience.</Text>
-                </View>
-
-                <View style={styles.form}>
-                    {renderInput("Name", name, setName, "Your Name")}
-
-                    <View style={styles.row}>
-                        <View style={{ flex: 1, marginRight: 8 }}>
-                            {renderInput("Age", age, setAge, "25", "numeric")}
+                    <View style={styles.header}>
+                        <View style={styles.iconContainer}>
+                            <Ionicons name="barbell" size={40} color={Theme.colors.primary} />
                         </View>
-                        <View style={{ flex: 1, marginLeft: 8 }}>
-                            {/* Placeholder purely for spacing if needed, but row splits fine */}
-                        </View>
+                        <Text style={styles.title}>Welcome to Dumbbells</Text>
+                        <Text style={styles.subtitle}>Let's get to know you better to personalize your workout experience.</Text>
                     </View>
 
-                    <View style={styles.row}>
-                        <View style={{ flex: 1, marginRight: 8 }}>
-                            {renderInput("Weight", weight, setWeight, "70", "numeric", "kg")}
+                    <View style={styles.form}>
+                        {renderInput("Name", name, setName, "Your Name")}
+
+                        <View style={styles.row}>
+                            <View style={{ flex: 1, marginRight: 8 }}>
+                                {renderInput("Age", age, setAge, "25", "numeric")}
+                            </View>
+                            <View style={{ flex: 1, marginLeft: 8 }}>
+                                {/* Placeholder purely for spacing if needed, but row splits fine */}
+                            </View>
                         </View>
-                        <View style={{ flex: 1, marginLeft: 8 }}>
-                            {renderInput("Height", height, setHeight, "170", "numeric", "cm")}
+
+                        <View style={styles.row}>
+                            <View style={{ flex: 1, marginRight: 8 }}>
+                                {renderInput("Weight", weight, setWeight, "70", "numeric", "kg")}
+                            </View>
+                            <View style={{ flex: 1, marginLeft: 8 }}>
+                                {renderInput("Height", height, setHeight, "170", "numeric", "cm")}
+                            </View>
                         </View>
                     </View>
-                </View>
 
-                <View style={styles.footer}>
-                    <Button title="Get Started" onPress={handleContinue} />
-                </View>
+                    <View style={styles.footer}>
+                        <Button title="Get Started" onPress={handleContinue} />
+                    </View>
 
-            </ScrollView>
+                </ScrollView>
+            </KeyboardAvoidingView>
 
             <ConfirmationModal
                 visible={modalVisible}
@@ -144,6 +150,9 @@ export const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+    },
+    keyboardAvoidingView: {
         flex: 1,
     },
     contentContainer: {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert, TextInput, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Alert, TextInput, Modal, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { ScreenContainer } from '../components/common/Screen';
 import { Theme } from '../theme';
 import { useWorkoutStore } from '../store/workoutStore';
@@ -223,7 +223,10 @@ export const SettingsScreen = () => {
 
       {/* Name Edit Modal */}
       <Modal visible={showNameModal} transparent animationType="fade">
-        <View style={styles.modalOverlay}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.modalOverlay}
+        >
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Edit Name</Text>
             <TextInput
@@ -246,7 +249,7 @@ export const SettingsScreen = () => {
               </TouchableOpacity>
             </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
 
       {/* Goal Edit Modal */}

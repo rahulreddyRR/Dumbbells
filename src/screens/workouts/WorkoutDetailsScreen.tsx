@@ -13,6 +13,10 @@ type Props = NativeStackScreenProps<RootStackParamList, 'WorkoutDetails'>;
 export const WorkoutDetailsScreen: React.FC<Props> = ({ route, navigation }) => {
   const { planId } = route.params;
   const customPlans = useWorkoutStore((state) => state.customPlans);
+  const setActivePlan = useWorkoutStore((state) => state.setActivePlan);
+  const activePlanId = useWorkoutStore((state) => state.activePlanId);
+
+  const isActivePlan = activePlanId === planId;
 
   // Check both predefined and custom plans
   const allPlans = [...WORKOUT_PLANS, ...customPlans];
@@ -55,9 +59,29 @@ export const WorkoutDetailsScreen: React.FC<Props> = ({ route, navigation }) => 
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.iconButton}>
               <Ionicons name="arrow-back" size={24} color={Theme.colors.white} />
             </TouchableOpacity>
-            {/* <TouchableOpacity style={styles.iconButton}>
-              <Ionicons name="heart-outline" size={24} color={Theme.colors.white} />
-            </TouchableOpacity> */}
+
+            <TouchableOpacity
+              style={[
+                styles.activePlanButton,
+                isActivePlan && styles.activePlanButtonActive
+              ]}
+              onPress={() => {
+                if (isActivePlan) {
+                  // Optional: Unset or do nothing? Let's just do nothing or toast
+                } else {
+                  setActivePlan(plan.id);
+                }
+              }}
+            >
+              <Ionicons
+                name={isActivePlan ? "checkmark-circle" : "add-circle-outline"}
+                size={20}
+                color={Theme.colors.white}
+              />
+              <Text style={styles.activePlanText}>
+                {isActivePlan ? 'Active Plan' : 'Set as Active'}
+              </Text>
+            </TouchableOpacity>
           </View>
 
           {/* Header Content */}
@@ -443,5 +467,25 @@ const styles = StyleSheet.create({
   modalImage: {
     width: '100%',
     height: '100%',
+  },
+  activePlanButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 20,
+    gap: 6,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
+  },
+  activePlanButtonActive: {
+    backgroundColor: Theme.colors.primary,
+    borderColor: Theme.colors.primary,
+  },
+  activePlanText: {
+    color: Theme.colors.white,
+    fontWeight: '600',
+    fontSize: 12,
   },
 });

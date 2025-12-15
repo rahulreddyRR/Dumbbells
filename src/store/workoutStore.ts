@@ -26,11 +26,13 @@ export interface ActiveSession {
 interface StoreState {
   completedWorkouts: CompletedWorkout[];
   activeSession: ActiveSession | null;
+  activePlanId: string | null;
   customPlans: WorkoutPlan[];
   addCompletedWorkout: (workout: CompletedWorkout) => void;
   startSession: (session: ActiveSession) => void;
   updateSession: (updates: Partial<ActiveSession>) => void;
   clearSession: () => void;
+  setActivePlan: (planId: string | null) => void;
   addCustomPlan: (plan: WorkoutPlan) => void;
   getCustomPlans: () => WorkoutPlan[];
   clearWorkoutHistory: () => void;
@@ -43,6 +45,7 @@ export const useWorkoutStore = create<StoreState>()(
     (set, get) => ({
       completedWorkouts: [],
       activeSession: null,
+      activePlanId: null,
       customPlans: [],
       addCompletedWorkout: (workout) => set((state) => ({ 
         completedWorkouts: [...state.completedWorkouts, workout] 
@@ -52,6 +55,7 @@ export const useWorkoutStore = create<StoreState>()(
         activeSession: state.activeSession ? { ...state.activeSession, ...updates } : null
       })),
       clearSession: () => set({ activeSession: null }),
+      setActivePlan: (planId) => set({ activePlanId: planId }),
       addCustomPlan: (plan) => set((state) => ({
         customPlans: [...state.customPlans, plan]
       })),

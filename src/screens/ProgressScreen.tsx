@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Dimensions, TouchableOpacity } from 'react-native';
-import { Screen } from '../components/common/Screen';
+import { ScreenContainer } from '../components/common/Screen';
 import { Theme } from '../theme';
 import { useWorkoutStore, CompletedWorkout } from '../store/workoutStore';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -220,7 +220,7 @@ export const ProgressScreen = () => {
   );
 
   return (
-    <Screen>
+    <ScreenContainer>
       <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>Your Progress</Text>
 
@@ -399,7 +399,7 @@ export const ProgressScreen = () => {
           </View>
         )}
       </ScrollView>
-    </Screen>
+    </ScreenContainer>
   );
 };
 

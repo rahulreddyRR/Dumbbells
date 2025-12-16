@@ -211,7 +211,8 @@ export const SettingsScreen = () => {
           <SettingRow
             icon="mail-outline"
             label="Contact Support"
-            onPress={() => Alert.alert('Support', 'Email: support@dumbbells.app')}
+            value="Temporarily Unavailable"
+            showChevron={false}
             isLast
           />
         </SettingSection>

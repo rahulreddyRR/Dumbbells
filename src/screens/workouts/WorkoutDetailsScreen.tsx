@@ -7,6 +7,7 @@ import { useWorkoutStore } from '../../store/workoutStore';
 import { Theme } from '../../theme';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Screen } from '../../components/common/Screen';
+import { AppConfig } from '../../config/AppConfig';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'WorkoutDetails'>;
 
@@ -60,28 +61,30 @@ export const WorkoutDetailsScreen: React.FC<Props> = ({ route, navigation }) => 
               <Ionicons name="arrow-back" size={24} color={Theme.colors.white} />
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={[
-                styles.activePlanButton,
-                isActivePlan && styles.activePlanButtonActive
-              ]}
-              onPress={() => {
-                if (isActivePlan) {
-                  // Optional: Unset or do nothing? Let's just do nothing or toast
-                } else {
-                  setActivePlan(plan.id);
-                }
-              }}
-            >
-              <Ionicons
-                name={isActivePlan ? "checkmark-circle" : "add-circle-outline"}
-                size={20}
-                color={Theme.colors.white}
-              />
-              <Text style={styles.activePlanText}>
-                {isActivePlan ? 'Active Plan' : 'Set as Active'}
-              </Text>
-            </TouchableOpacity>
+            {AppConfig.features.enableMyPlan ? (
+              <TouchableOpacity
+                style={[
+                  styles.activePlanButton,
+                  isActivePlan && styles.activePlanButtonActive
+                ]}
+                onPress={() => {
+                  if (isActivePlan) {
+                    // Optional: Unset or do nothing? Let's just do nothing or toast
+                  } else {
+                    setActivePlan(plan.id);
+                  }
+                }}
+              >
+                <Ionicons
+                  name={isActivePlan ? "checkmark-circle" : "add-circle-outline"}
+                  size={20}
+                  color={Theme.colors.white}
+                />
+                <Text style={styles.activePlanText}>
+                  {isActivePlan ? 'Active Plan' : 'Set as Active'}
+                </Text>
+              </TouchableOpacity>
+            ) : null}
           </View>
 
           {/* Header Content */}

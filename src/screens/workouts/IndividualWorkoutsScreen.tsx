@@ -4,12 +4,15 @@ import { ScreenContainer } from '../../components/common/Screen';
 import { Theme } from '../../theme';
 import { SearchBar } from '../../components/common/SearchBar';
 import { CategoryFilter } from '../../components/workouts/CategoryFilter';
-import { ExerciseCard } from '../../components/workouts/ExerciseCard';
+import { IndividualExerciseCard } from '../../components/workouts/IndividualExerciseCard';
 import { EXERCISES, CATEGORIES } from '../../data/exercises';
+
+import { ExerciseImageModal } from '../../components/workouts/ExerciseImageModal';
 
 export const IndividualWorkoutsScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedImage, setSelectedImage] = useState<any>(null);
 
   const filteredExercises = useMemo(() => {
     return EXERCISES.filter((exercise) => {
@@ -18,6 +21,10 @@ export const IndividualWorkoutsScreen = () => {
       return matchesSearch && matchesCategory;
     });
   }, [searchQuery, selectedCategory]);
+
+  const handleImagePress = (image: any) => {
+    setSelectedImage(image);
+  };
 
   return (
     <ScreenContainer>
@@ -40,7 +47,12 @@ export const IndividualWorkoutsScreen = () => {
         <FlatList
           data={filteredExercises}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <ExerciseCard exercise={item} />}
+          renderItem={({ item }) => (
+            <IndividualExerciseCard
+              exercise={item}
+              onPress={handleImagePress}
+            />
+          )}
           numColumns={2}
           contentContainerStyle={styles.listContent}
           columnWrapperStyle={styles.columnWrapper}
@@ -49,6 +61,11 @@ export const IndividualWorkoutsScreen = () => {
           maxToRenderPerBatch={10}
           windowSize={5}
           removeClippedSubviews={true}
+        />
+
+        <ExerciseImageModal
+          image={selectedImage}
+          onClose={() => setSelectedImage(null)}
         />
       </View>
     </ScreenContainer>

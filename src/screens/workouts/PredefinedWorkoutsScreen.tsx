@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import { Theme } from '../../theme';
 import { WORKOUT_PLANS } from '../../data/workoutPlans';
@@ -15,9 +16,8 @@ import { WorkoutsScreenHeader } from '../../components/workouts/WorkoutsScreenHe
 
 import { AppConfig } from '../../config/AppConfig';
 
-type Props = NativeStackScreenProps<RootStackParamList>;
-
-export const PredefinedWorkoutsScreen: React.FC<Props> = ({ navigation }) => {
+export const PredefinedWorkoutsScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const customPlans = useWorkoutStore((state) => state.customPlans);
   const deleteCustomPlan = useWorkoutStore((state) => state.deleteCustomPlan);
   const activePlanId = useWorkoutStore((state) => state.activePlanId);

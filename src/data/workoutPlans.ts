@@ -176,10 +176,10 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
             title: 'Chest',
             stats: { calories: 172, weight: 3200, minutes: 30 },
             exercises: [
-                { id: '1', name: 'Bench Press', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
-                { id: '2', name: 'Bench Fly', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
-                { id: '3', name: 'Pullover', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
-                { id: '4', name: 'Squeeze Press', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
+                { id: '1', name: 'Bench Press', sets: '12 + 10 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/bench_press.webp') },
+                { id: '2', name: 'Bench Fly', sets: '12 + 10 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/bench_flyes.webp') },
+                { id: '3', name: 'Pullover', sets: '12 + 10 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/pullover.webp') },
+                { id: '4', name: 'Squeeze Press', sets: '12 + 10 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/squeeze_press.webp') },
             ]
         },
         {
@@ -187,10 +187,10 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
             title: 'Back',
             stats: { calories: 181, weight: 3380, minutes: 30 },
             exercises: [
-                { id: '1', name: 'Reverse Fly', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
-                { id: '2', name: 'Bent-Over', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
-                { id: '3', name: 'Wide Row', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
-                { id: '4', name: 'Shrugs', sets: '15 + 12 + 12 + 10', weight: '10 kg' },
+                { id: '1', name: 'Reverse Fly', sets: '12 + 10 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/reverse_fly.webp') },
+                { id: '2', name: 'Bent-Over', sets: '12 + 10 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/bent_over.webp') },
+                { id: '3', name: 'Wide Row', sets: '12 + 10 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/wide_row.webp') },
+                { id: '4', name: 'Shrugs', sets: '15 + 12 + 12 + 10', weight: '10 kg', image: require('../assets/workouts/shrug.webp') },
             ]
         },
         {
@@ -198,12 +198,12 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
             title: 'Arms',
             stats: { calories: 203, weight: 3440, minutes: 40 },
             exercises: [
-                { id: '1', name: 'Bicep Curl', sets: '12 + 10 + 8', weight: '10 kg' },
-                { id: '2', name: 'Hammer Curl', sets: '12 + 10 + 8', weight: '10 kg' },
-                { id: '3', name: 'Lying Bicep Curl', sets: '12 + 10 + 8', weight: '10 kg' },
-                { id: '4', name: 'Triceps Kickback', sets: '12 + 12 + 10 + 10', weight: '10 kg' },
-                { id: '5', name: 'Lying French Press', sets: '12 + 10 + 8', weight: '10 kg' },
-                { id: '6', name: 'French Press', sets: '12 + 10 + 8', weight: '10 kg' },
+                { id: '1', name: 'Bicep Curl', sets: '12 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/bicep_curl.webp') },
+                { id: '2', name: 'Hammer Curl', sets: '12 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/hammer_curl.webp') },
+                { id: '3', name: 'Lying Bicep Curl', sets: '12 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/lying_bicep_curl.webp') },
+                { id: '4', name: 'Triceps Kickback', sets: '12 + 12 + 10 + 10', weight: '10 kg', image: require('../assets/workouts/tricep_kickback.webp') },
+                { id: '5', name: 'Lying French Press', sets: '12 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/lying_french_press.webp') },
+                { id: '6', name: 'French Press', sets: '12 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/french_press.webp') },
             ]
         },
         {
@@ -211,10 +211,10 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
             title: 'Shoulders',
             stats: { calories: 172, weight: 3200, minutes: 30 },
             exercises: [
-                { id: '1', name: 'Overhead Press', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
-                { id: '2', name: 'Lateral Raise', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
-                { id: '3', name: 'Arnold Press', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
-                { id: '4', name: 'Front Raise', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
+                { id: '1', name: 'Overhead Press', sets: '12 + 10 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/overhead_press.webp') },
+                { id: '2', name: 'Lateral Raise', sets: '12 + 10 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/lateral_raise.webp') },
+                { id: '3', name: 'Arnold Press', sets: '12 + 10 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/arnold_press.webp') },
+                { id: '4', name: 'Front Raise', sets: '12 + 10 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/front_raise.webp') },
             ]
         },
         {
@@ -222,10 +222,10 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
             title: 'Legs',
             stats: { calories: 186, weight: 3460, minutes: 30 },
             exercises: [
-                { id: '1', name: 'Deadlift', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
-                { id: '2', name: 'Lunges', sets: '12 + 12 + 10 + 10', weight: '10 kg' },
-                { id: '3', name: 'Squats', sets: '12 + 10 + 10 + 8', weight: '10 kg' },
-                { id: '4', name: 'Calf Raise', sets: '15 + 12 + 12 + 10', weight: '10 kg' },
+                { id: '1', name: 'Deadlift', sets: '12 + 10 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/deadlift.webp') },
+                { id: '2', name: 'Lunges', sets: '12 + 12 + 10 + 10', weight: '10 kg', image: require('../assets/workouts/lunges.webp') },
+                { id: '3', name: 'Squats', sets: '12 + 10 + 10 + 8', weight: '10 kg', image: require('../assets/workouts/squat.webp') },
+                { id: '4', name: 'Calf Raise', sets: '15 + 12 + 12 + 10', weight: '10 kg', image: require('../assets/workouts/calf_raise.webp') },
             ]
         }
     ] 

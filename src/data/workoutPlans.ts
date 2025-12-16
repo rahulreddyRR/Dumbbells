@@ -37,7 +37,7 @@ export interface WorkoutPlan {
 export const WORKOUT_PLANS: WorkoutPlan[] = [
   {
     id: '1',
-    title: 'Beginner',
+    title: 'Foundation Start',
     subtitle: 'Start your journey',
     frequency: 'Daily',
     difficulty: 'Beginner',
@@ -66,7 +66,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
   },
   {
     id: '2',
-    title: 'Weight Loss',
+    title: 'Fat Burner',
     subtitle: 'High intensity cardio',
     frequency: 'Daily',
     difficulty: 'Intermediate',
@@ -99,7 +99,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
   },
   {
     id: '3',
-    title: 'Full Body',
+    title: 'Total Strength',
     subtitle: 'Compound movements',
     frequency: '3 days/week',
     difficulty: 'Intermediate',
@@ -158,7 +158,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
   },
   {
     id: '4',
-    title: 'Total Split',
+    title: 'Muscle Split',
     subtitle: 'Focused muscle isolation',
     frequency: '5 days/week',
     difficulty: 'Advanced',
@@ -233,7 +233,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
   },
   {
     id: '5',
-    title: 'Get Shredded',
+    title: 'Ultimate Shred',
     subtitle: 'Maximum definition',
     frequency: '6 days/week',
     difficulty: 'Advanced',

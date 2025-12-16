@@ -1,4 +1,4 @@
-package com.dumbbells
+package com.rahulreddy.dumbbells
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

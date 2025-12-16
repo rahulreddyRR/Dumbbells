@@ -77,9 +77,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.dumbbells"
+    namespace "com.rahulreddy.dumbbells"
     defaultConfig {
-        applicationId "com.dumbbells"
+        applicationId "com.rahulreddy.dumbbells"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -1,4 +1,4 @@
-package com.dumbbells
+package com.rahulreddy.dumbbells
 
 import android.app.Application
 import com.facebook.react.PackageList

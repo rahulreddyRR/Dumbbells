@@ -15,7 +15,7 @@ export const WorkoutsScreenHeader = memo(({ userName, todaysWorkoutComponent }: 
 
             {todaysWorkoutComponent}
 
-            <Text style={[styles.sectionTitle, { marginTop: Theme.spacing.xl }]}>Browse Plans</Text>
+            <Text style={[styles.sectionTitle, todaysWorkoutComponent ? { marginTop: Theme.spacing.xl } : undefined]}>Browse Plans</Text>
         </View>
     );
 });

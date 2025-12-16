@@ -54,12 +54,12 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
         day: 1,
         title: 'Full Body',
         exercises: [
-          { id: '1', name: 'French Press', sets: '12', weight: '6 kg', image: require('../assets/workouts/french_press.webp') },
-          { id: '2', name: 'Overhead Press', sets: '12', weight: '6 kg', image: require('../assets/workouts/overhead_press.webp') },
-          { id: '3', name: 'Lateral Raise', sets: '12', weight: '6 kg', image: require('../assets/workouts/lateral_raise.webp') },
-          { id: '4', name: 'Alternate Bicep Curl', sets: '12', weight: '6 kg', image: require('../assets/workouts/alt_bicep_curl.webp') },
-          { id: '5', name: 'Squats', sets: '10', weight: '6 kg', image: require('../assets/workouts/squat.webp') },
-          { id: '6', name: 'Calf Raise', sets: '15', weight: '6 kg', image: require('../assets/workouts/calf_raise.webp') },
+          { id: '1', name: 'Squats', sets: '12', weight: '6 kg', image: require('../assets/workouts/squat.webp') },
+          { id: '2', name: 'Bench Press', sets: '10', weight: '6 kg', image: require('../assets/workouts/bench_press.webp') },
+          { id: '3', name: 'Bent-Over', sets: '10', weight: '6 kg', image: require('../assets/workouts/bent_over.webp') },
+          { id: '4', name: 'Overhead Press', sets: '10', weight: '5 kg', image: require('../assets/workouts/overhead_press.webp') },
+          { id: '5', name: 'Bicep Curl', sets: '12', weight: '5 kg', image: require('../assets/workouts/bicep_curl.webp') },
+          { id: '6', name: 'Crunches', sets: '15', weight: '-', image: require('../assets/workouts/crunches.webp') },
         ],
       },
     ],
@@ -117,13 +117,13 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
             title: 'Day 1',
             stats: { calories: 265, weight: 4128, minutes: 45 },
             exercises: [
-                { id: '1', name: 'Bench Press', sets: '12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/bench_press.webp') },
-                { id: '2', name: 'Bench Fly', sets: '12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/bench_flyes.webp') },
-                { id: '3', name: 'Lunges', sets: '12 + 12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/lunges.webp') },
-                { id: '4', name: 'Bicep Curl', sets: '12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/bicep_curl.webp') },
-                { id: '5', name: 'Hammer Curl', sets: '12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/hammer_curl.webp') },
-                { id: '6', name: 'Squats', sets: '10 + 10 + 10', weight: '8 kg', image: require('../assets/workouts/squat.webp') },
-                { id: '7', name: 'French Press', sets: '12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/french_press.webp') },
+                { id: '1', name: 'Bench Press', sets: '10 + 8 + 8', weight: '12 kg', image: require('../assets/workouts/bench_press.webp') },
+                { id: '2', name: 'Bench Fly', sets: '10 + 10 + 10', weight: '10 kg', image: require('../assets/workouts/bench_flyes.webp') },
+                { id: '3', name: 'Lunges', sets: '10 + 10 + 10 + 10', weight: '12 kg', image: require('../assets/workouts/lunges.webp') },
+                { id: '4', name: 'Bicep Curl', sets: '10 + 8 + 8', weight: '10 kg', image: require('../assets/workouts/bicep_curl.webp') },
+                { id: '5', name: 'Hammer Curl', sets: '10 + 8 + 8', weight: '10 kg', image: require('../assets/workouts/hammer_curl.webp') },
+                { id: '6', name: 'Squats', sets: '8 + 8 + 8', weight: '15 kg', image: require('../assets/workouts/squat.webp') },
+                { id: '7', name: 'French Press', sets: '10 + 10 + 10', weight: '10 kg', image: require('../assets/workouts/french_press.webp') },
             ]
         },
         {
@@ -131,13 +131,13 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
             title: 'Day 2',
             stats: { calories: 251, weight: 3600, minutes: 45 },
             exercises: [
-                { id: '1', name: 'Overhead Press', sets: '12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/overhead_press.webp') },
-                { id: '2', name: 'Bent-Over', sets: '12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/bent_over.webp') },
-                { id: '3', name: 'Lateral Raise', sets: '10 + 10 + 10', weight: '8 kg', image: require('../assets/workouts/lateral_raise.webp') },
-                { id: '4', name: 'Arnold Press', sets: '12 + 12', weight: '8 kg', image: require('../assets/workouts/arnold_press.webp') },
-                { id: '5', name: 'Bench Bent-Over', sets: '12 + 12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/bench_bent_over.webp') },
-                { id: '6', name: 'Front Raise', sets: '10 + 10 + 10', weight: '8 kg', image: require('../assets/workouts/front_raise.webp') },
-                { id: '7', name: 'Shrugs', sets: '15 + 15 + 15', weight: '8 kg', image: require('../assets/workouts/shrug.webp') },
+                { id: '1', name: 'Overhead Press', sets: '10 + 8 + 8', weight: '10 kg', image: require('../assets/workouts/overhead_press.webp') },
+                { id: '2', name: 'Bent-Over', sets: '10 + 8 + 8', weight: '12 kg', image: require('../assets/workouts/bent_over.webp') },
+                { id: '3', name: 'Lateral Raise', sets: '12 + 10 + 10', weight: '8 kg', image: require('../assets/workouts/lateral_raise.webp') },
+                { id: '4', name: 'Arnold Press', sets: '10 + 8 + 8', weight: '10 kg', image: require('../assets/workouts/arnold_press.webp') },
+                { id: '5', name: 'Bench Bent-Over', sets: '10 + 10 + 10 + 10', weight: '12 kg', image: require('../assets/workouts/bench_bent_over.webp') },
+                { id: '6', name: 'Front Raise', sets: '12 + 10 + 10', weight: '8 kg', image: require('../assets/workouts/front_raise.webp') },
+                { id: '7', name: 'Shrugs', sets: '12 + 12 + 12', weight: '15 kg', image: require('../assets/workouts/shrug.webp') },
             ]
         },
         {
@@ -145,13 +145,13 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
             title: 'Day 3',
             stats: { calories: 277, weight: 3696, minutes: 50 },
             exercises: [
-                { id: '1', name: 'Bench Press', sets: '12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/bench_press.webp') },
-                { id: '2', name: 'Lying French Press', sets: '12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/lying_french_press.webp') },
-                { id: '3', name: 'Squats', sets: '10 + 10 + 10', weight: '8 kg', image: require('../assets/workouts/squat.webp') },
-                { id: '4', name: 'Triceps Kickback', sets: '12 + 12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/tricep_kickback.webp') },
-                { id: '5', name: 'Alternate Bicep Curl', sets: '12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/alt_bicep_curl.webp') },
-                { id: '6', name: 'One Arm Triceps Extension', sets: '12 + 12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/one_arm_triceps_extension.webp') },
-                { id: '7', name: 'Calf Raise', sets: '15 + 15 + 15', weight: '8 kg', image: require('../assets/workouts/calf_raise.webp') },
+                { id: '1', name: 'Bench Press', sets: '8 + 8 + 6', weight: '15 kg', image: require('../assets/workouts/bench_press.webp') },
+                { id: '2', name: 'Lying French Press', sets: '10 + 8 + 8', weight: '10 kg', image: require('../assets/workouts/lying_french_press.webp') },
+                { id: '3', name: 'Squats', sets: '8 + 8 + 8', weight: '15 kg', image: require('../assets/workouts/squat.webp') },
+                { id: '4', name: 'Triceps Kickback', sets: '10 + 10 + 10 + 10', weight: '8 kg', image: require('../assets/workouts/tricep_kickback.webp') },
+                { id: '5', name: 'Alternate Bicep Curl', sets: '10 + 8 + 8', weight: '10 kg', image: require('../assets/workouts/alt_bicep_curl.webp') },
+                { id: '6', name: 'One Arm Triceps Extension', sets: '10 + 10 + 10 + 10', weight: '8 kg', image: require('../assets/workouts/one_arm_triceps_extension.webp') },
+                { id: '7', name: 'Calf Raise', sets: '15 + 15 + 15', weight: '12 kg', image: require('../assets/workouts/calf_raise.webp') },
             ]
         }
     ]
@@ -332,6 +332,73 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
                 { id: '6', name: 'Lateral Raise', sets: '12 + 12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/lateral_raise.webp') },
                 { id: '7', name: 'Front Raise', sets: '12 + 12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/front_raise.webp') },
                 { id: '8', name: 'Crunches', sets: '25 + 25 + 25 + 25', weight: '-', image: require('../assets/workouts/crunches.webp') },
+            ]
+        }
+    ]
+  },
+  {
+    id: '6',
+    title: 'Upper/Lower Power',
+    subtitle: 'Balanced 4-day split',
+    frequency: '4 days/week',
+    difficulty: 'Intermediate',
+    image: require('../assets/workouts/muscle_split_cover.png'), // Reusing cover or need a new one? Using placeholder for now or existing reasonable one.
+    restBetweenSets: 90,
+    restBetweenExercises: 120,
+    stats: {
+        calories: 320,
+        weight: 4500,
+        minutes: 45
+    },
+    schedule: [
+        {
+            day: 1,
+            title: 'Upper Power',
+            stats: { calories: 310, weight: 4200, minutes: 45 },
+            exercises: [
+                { id: '1', name: 'Bench Press', sets: '8 + 8 + 8', weight: '12 kg', image: require('../assets/workouts/bench_press.webp') },
+                { id: '2', name: 'Bent-Over', sets: '8 + 8 + 8', weight: '12 kg', image: require('../assets/workouts/bent_over.webp') },
+                { id: '3', name: 'Overhead Press', sets: '10 + 10 + 10', weight: '10 kg', image: require('../assets/workouts/overhead_press.webp') },
+                { id: '4', name: 'Pull-Ups', sets: '8 + 8 + 8', weight: '-', image: require('../assets/workouts/bw_pull_ups.webp') },
+                { id: '5', name: 'Bicep Curl', sets: '10 + 10 + 10', weight: '10 kg', image: require('../assets/workouts/bicep_curl.webp') },
+                { id: '6', name: 'French Press', sets: '10 + 10 + 10', weight: '10 kg', image: require('../assets/workouts/french_press.webp') },
+            ]
+        },
+        {
+            day: 2,
+            title: 'Lower Power',
+            stats: { calories: 340, weight: 4800, minutes: 45 },
+            exercises: [
+                { id: '1', name: 'Squats', sets: '8 + 8 + 8', weight: '15 kg', image: require('../assets/workouts/squat.webp') },
+                { id: '2', name: 'Deadlift', sets: '8 + 8 + 8', weight: '15 kg', image: require('../assets/workouts/deadlift.webp') },
+                { id: '3', name: 'Lunges', sets: '10 + 10 + 10', weight: '12 kg', image: require('../assets/workouts/lunges.webp') },
+                { id: '4', name: 'Calf Raise', sets: '15 + 15 + 15', weight: '12 kg', image: require('../assets/workouts/calf_raise.webp') },
+                { id: '5', name: 'Hang Leg Raises', sets: '12 + 12 + 12', weight: '-', image: require('../assets/workouts/hang_leg_raises.webp') },
+            ]
+        },
+        {
+            day: 3,
+            title: 'Upper Hypertrophy',
+            stats: { calories: 290, weight: 3800, minutes: 40 },
+            exercises: [
+                { id: '1', name: 'Incline Bench Press', sets: '12 + 12 + 12', weight: '10 kg', image: require('../assets/workouts/incline_bench_press.webp') },
+                { id: '2', name: 'Wide Row', sets: '12 + 12 + 12', weight: '10 kg', image: require('../assets/workouts/wide_row.webp') },
+                { id: '3', name: 'Lateral Raise', sets: '15 + 15 + 15', weight: '8 kg', image: require('../assets/workouts/lateral_raise.webp') },
+                { id: '4', name: 'Bench Fly', sets: '12 + 12 + 12', weight: '10 kg', image: require('../assets/workouts/bench_flyes.webp') },
+                { id: '5', name: 'Hammer Curl', sets: '12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/hammer_curl.webp') },
+                { id: '6', name: 'Triceps Kickback', sets: '12 + 12 + 12', weight: '8 kg', image: require('../assets/workouts/tricep_kickback.webp') },
+            ]
+        },
+        {
+            day: 4,
+            title: 'Lower Hypertrophy',
+            stats: { calories: 300, weight: 4000, minutes: 40 },
+            exercises: [
+                { id: '1', name: 'Lunges', sets: '12 + 12 + 12', weight: '10 kg', image: require('../assets/workouts/lunges.webp') },
+                { id: '2', name: 'Squats', sets: '12 + 12 + 12', weight: '10 kg', image: require('../assets/workouts/squat.webp') },
+                { id: '3', name: 'Calf Raise', sets: '20 + 20 + 20', weight: '10 kg', image: require('../assets/workouts/calf_raise.webp') },
+                { id: '4', name: 'Crunches', sets: '20 + 20 + 20', weight: '-', image: require('../assets/workouts/crunches.webp') },
+                { id: '5', name: 'Bicycle', sets: '20 + 20 + 20', weight: '-', image: require('../assets/workouts/bw_bicycle.webp') },
             ]
         }
     ]

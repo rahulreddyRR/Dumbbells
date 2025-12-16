@@ -2,43 +2,39 @@ import React, { memo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Theme } from '../../theme';
 
-interface WorkoutsScreenHeaderProps {
-    userName: string | undefined;
-    todaysWorkoutComponent: React.ReactNode;
+interface Props {
+    userName: string;
+    todaysWorkoutComponent?: React.ReactNode;
 }
 
-export const WorkoutsScreenHeader = memo(({ userName, todaysWorkoutComponent }: WorkoutsScreenHeaderProps) => {
+export const WorkoutsScreenHeader = memo(({ userName, todaysWorkoutComponent }: Props) => {
     return (
-        <View style={styles.header}>
-            <Text style={styles.title}>Hey {userName || 'there'}! 💪</Text>
-            <Text style={styles.subtitle}>Let's crush your goals</Text>
-
+        <View style={styles.container}>
+            <View style={styles.headerContent}>
+                <Text style={styles.greeting}>Hey {userName || 'there'}! 💪</Text>
+                <Text style={styles.subtitle}>Let's crush your goals</Text>
+            </View>
             {todaysWorkoutComponent}
-
-            <Text style={[styles.sectionTitle, todaysWorkoutComponent ? { marginTop: Theme.spacing.xl } : undefined]}>Browse Plans</Text>
         </View>
     );
 });
 
 const styles = StyleSheet.create({
-    header: {
-        paddingTop: Theme.spacing.m,
+    container: {
+        paddingBottom: Theme.spacing.m,
     },
-    title: {
-        color: Theme.colors.white,
+    headerContent: {
+        marginBottom: Theme.spacing.l,
+        marginTop: Theme.spacing.s,
+    },
+    greeting: {
         fontSize: 28,
         fontWeight: 'bold',
+        color: Theme.colors.white,
         marginBottom: 4,
     },
     subtitle: {
+        fontSize: 16,
         color: Theme.colors.gray[400],
-        fontSize: 14,
-        marginBottom: Theme.spacing.l,
-    },
-    sectionTitle: {
-        ...Theme.textVariants.subheader,
-        fontSize: 18,
-        color: Theme.colors.white,
-        marginBottom: Theme.spacing.m,
     },
 });

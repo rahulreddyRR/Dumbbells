@@ -350,7 +350,7 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
 
             <View style={styles.row}>
                 <View style={[styles.inputGroup, { flex: 1, marginRight: 8 }]}>
-                    <Text style={styles.label}>Rest Between Sets (s)</Text>
+                    <Text style={styles.label}>Rest Sets (s)</Text>
                     <TextInput
                         style={styles.input}
                         value={restBetweenSets}
@@ -363,7 +363,7 @@ export const CreateCustomPlanScreen: React.FC<Props> = ({ navigation }) => {
                 </View>
 
                 <View style={[styles.inputGroup, { flex: 1, marginLeft: 8 }]}>
-                    <Text style={styles.label}>Rest Between Exercises (s)</Text>
+                    <Text style={styles.label}>Rest Exercises (s)</Text>
                     <TextInput
                         style={styles.input}
                         value={restBetweenExercises}

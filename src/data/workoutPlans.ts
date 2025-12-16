@@ -41,7 +41,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     subtitle: 'Start your journey',
     frequency: 'Daily',
     difficulty: 'Beginner',
-    image: null,
+    image: require('../assets/workouts/foundation_start_cover.png'),
     restBetweenSets: 60,
     restBetweenExercises: 90,
     stats: {
@@ -70,7 +70,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     subtitle: 'High intensity cardio',
     frequency: 'Daily',
     difficulty: 'Intermediate',
-    image: null,
+    image: require('../assets/workouts/fat_burner_cover.png'),
     restBetweenSets: 45,
     restBetweenExercises: 60,
     stats: {
@@ -103,7 +103,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     subtitle: 'Compound movements',
     frequency: '3 days/week',
     difficulty: 'Intermediate',
-    image: null,
+    image: require('../assets/workouts/total_strength_cover.png'),
     restBetweenSets: 60,
     restBetweenExercises: 120,
     stats: {
@@ -162,8 +162,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     subtitle: 'Focused muscle isolation',
     frequency: '5 days/week',
     difficulty: 'Advanced',
-    // Fallback or placeholder since generation limit reached
-    image: null,
+    image: require('../assets/workouts/muscle_split_cover.png'),
     restBetweenSets: 75,
     restBetweenExercises: 120,
     stats: {
@@ -237,8 +236,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     subtitle: 'Maximum definition',
     frequency: '6 days/week',
     difficulty: 'Advanced',
-    // Fallback or placeholder since generation limit reached
-    image: null,
+    image: require('../assets/workouts/ultimate_shred_cover.png'),
     restBetweenSets: 45,
     restBetweenExercises: 90,
     stats: {

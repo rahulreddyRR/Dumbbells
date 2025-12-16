@@ -41,7 +41,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     subtitle: 'Start your journey',
     frequency: 'Daily',
     difficulty: 'Beginner',
-    image: require('../assets/workouts/foundation_start_cover.png'),
+    image: require('../assets/workouts/foundation_start_cover.jpg'),
     restBetweenSets: 60,
     restBetweenExercises: 90,
     stats: {
@@ -70,7 +70,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     subtitle: 'High intensity cardio',
     frequency: 'Daily',
     difficulty: 'Intermediate',
-    image: require('../assets/workouts/fat_burner_cover.png'),
+    image: require('../assets/workouts/fat_burner_cover.jpg'),
     restBetweenSets: 45,
     restBetweenExercises: 60,
     stats: {
@@ -103,7 +103,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     subtitle: 'Compound movements',
     frequency: '3 days/week',
     difficulty: 'Intermediate',
-    image: require('../assets/workouts/total_strength_cover.png'),
+    image: require('../assets/workouts/total_strength_cover.jpg'),
     restBetweenSets: 60,
     restBetweenExercises: 120,
     stats: {
@@ -162,7 +162,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     subtitle: 'Focused muscle isolation',
     frequency: '5 days/week',
     difficulty: 'Advanced',
-    image: require('../assets/workouts/muscle_split_cover.png'),
+    image: require('../assets/workouts/muscle_split_cover.jpg'),
     restBetweenSets: 75,
     restBetweenExercises: 120,
     stats: {
@@ -236,7 +236,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     subtitle: 'Maximum definition',
     frequency: '6 days/week',
     difficulty: 'Advanced',
-    image: require('../assets/workouts/ultimate_shred_cover.png'),
+    image: require('../assets/workouts/ultimate_shred_cover.jpg'),
     restBetweenSets: 45,
     restBetweenExercises: 90,
     stats: {
@@ -342,7 +342,7 @@ export const WORKOUT_PLANS: WorkoutPlan[] = [
     subtitle: 'Balanced 4-day split',
     frequency: '4 days/week',
     difficulty: 'Intermediate',
-    image: require('../assets/workouts/muscle_split_cover.png'), // Reusing cover or need a new one? Using placeholder for now or existing reasonable one.
+    image: require('../assets/workouts/muscle_split_cover.jpg'), // Reusing cover or need a new one? Using placeholder for now or existing reasonable one.
     restBetweenSets: 90,
     restBetweenExercises: 120,
     stats: {

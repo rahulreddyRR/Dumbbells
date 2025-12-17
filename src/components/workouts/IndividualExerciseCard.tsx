@@ -21,7 +21,7 @@ export const IndividualExerciseCard = memo(({ exercise, onPress }: Props) => {
                     <FastImage
                         source={exercise.image}
                         style={styles.image}
-                        resizeMode="contain"
+                        resizeMode={FastImage.resizeMode.contain}
                     />
                 )}
             </View>

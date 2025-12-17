@@ -9,6 +9,7 @@
     "android:clean": "cd android && rm -rf app/build app/.cxx .gradle build && ./gradlew clean",
     "ios": "react-native run-ios",
     "ios:podinstall": "cd ios && pod install",
+    "ios:clean": "cd ios && rm -rf build && pod deintegrate && pod install",
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest"

@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Theme } from '../../theme';
 import { Exercise } from '../../data/exercises';
+import FastImage from 'react-native-fast-image';
 
 interface Props {
     exercise: Exercise;
@@ -17,7 +18,7 @@ export const IndividualExerciseCard = memo(({ exercise, onPress }: Props) => {
         >
             <View style={styles.imageContainer}>
                 {exercise.image && (
-                    <Image
+                    <FastImage
                         source={exercise.image}
                         style={styles.image}
                         resizeMode="contain"

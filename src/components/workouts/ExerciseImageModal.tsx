@@ -2,6 +2,8 @@ import React, { memo } from 'react';
 import { View, Modal, TouchableWithoutFeedback, Image, StyleSheet } from 'react-native';
 import { Theme } from '../../theme';
 
+import FastImage from 'react-native-fast-image';
+
 interface Props {
     image: any;
     onClose: () => void;
@@ -20,10 +22,10 @@ export const ExerciseImageModal = memo(({ image, onClose }: Props) => {
                     <TouchableWithoutFeedback>
                         <View style={styles.modalContent}>
                             {image && (
-                                <Image
+                                <FastImage
                                     source={image}
                                     style={styles.modalImage}
-                                    resizeMode="contain"
+                                    resizeMode={FastImage.resizeMode.contain}
                                 />
                             )}
                         </View>

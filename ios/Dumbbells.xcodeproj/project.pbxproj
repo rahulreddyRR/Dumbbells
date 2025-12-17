@@ -10,9 +10,9 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		8CD5BFBD2EF2A95D00CCB0FF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8CD5BFBC2EF2A95D00CCB0FF /* GoogleService-Info.plist */; };
 		982FDF7168FEA20FFC5F6E73 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 		AC3603EE093B1CA0B024B958 /* Pods_Dumbbells.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8A4351A24F332A54369AB0F /* Pods_Dumbbells.framework */; };
-		8CD5BFBD2EF2A95D00CCB0FF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8CD5BFBC2EF2A95D00CCB0FF /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -288,6 +288,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H8643MVX4C;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Dumbbells/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
@@ -316,6 +317,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = H8643MVX4C;
 				INFOPLIST_FILE = Dumbbells/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (

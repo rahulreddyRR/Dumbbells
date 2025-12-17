@@ -6,14 +6,14 @@ DEST_DIR="ios/Dumbbells/Images.xcassets/AppIcon.appiconset"
 cp "$SOURCE_IMG" "$DEST_DIR/ios-marketing.png"
 
 # Resize for other sizes
-sips -z 180 180 "$SOURCE_IMG" --out "$DEST_DIR/icon_60pt@3x.png"
-sips -z 120 120 "$SOURCE_IMG" --out "$DEST_DIR/icon_60pt@2x.png"
-sips -z 120 120 "$SOURCE_IMG" --out "$DEST_DIR/icon_40pt@3x.png"
-sips -z 80 80 "$SOURCE_IMG" --out "$DEST_DIR/icon_40pt@2x.png"
-sips -z 87 87 "$SOURCE_IMG" --out "$DEST_DIR/icon_29pt@3x.png"
-sips -z 58 58 "$SOURCE_IMG" --out "$DEST_DIR/icon_29pt@2x.png"
-sips -z 60 60 "$SOURCE_IMG" --out "$DEST_DIR/icon_20pt@3x.png"
-sips -z 40 40 "$SOURCE_IMG" --out "$DEST_DIR/icon_20pt@2x.png"
+sips -s format png -z 180 180 "$SOURCE_IMG" --out "$DEST_DIR/icon_60pt@3x.png"
+sips -s format png -z 120 120 "$SOURCE_IMG" --out "$DEST_DIR/icon_60pt@2x.png"
+sips -s format png -z 120 120 "$SOURCE_IMG" --out "$DEST_DIR/icon_40pt@3x.png"
+sips -s format png -z 80 80 "$SOURCE_IMG" --out "$DEST_DIR/icon_40pt@2x.png"
+sips -s format png -z 87 87 "$SOURCE_IMG" --out "$DEST_DIR/icon_29pt@3x.png"
+sips -s format png -z 58 58 "$SOURCE_IMG" --out "$DEST_DIR/icon_29pt@2x.png"
+sips -s format png -z 60 60 "$SOURCE_IMG" --out "$DEST_DIR/icon_20pt@3x.png"
+sips -s format png -z 40 40 "$SOURCE_IMG" --out "$DEST_DIR/icon_20pt@2x.png"
 
 # Android Destination
 ANDROID_RES="android/app/src/main/res"
@@ -23,8 +23,8 @@ generate_android_icon() {
   local size=$1
   local folder=$2
   mkdir -p "$ANDROID_RES/$folder"
-  sips -z $size $size "$SOURCE_IMG" --out "$ANDROID_RES/$folder/ic_launcher.png"
-  sips -z $size $size "$SOURCE_IMG" --out "$ANDROID_RES/$folder/ic_launcher_round.png"
+  sips -s format png -z $size $size "$SOURCE_IMG" --out "$ANDROID_RES/$folder/ic_launcher.png"
+  sips -s format png -z $size $size "$SOURCE_IMG" --out "$ANDROID_RES/$folder/ic_launcher_round.png"
 }
 
 # Generate Android Icons

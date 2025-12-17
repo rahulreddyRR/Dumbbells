@@ -1,8 +1,9 @@
 import React, { memo } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Theme } from '../../theme';
 import { PlanExercise } from '../../data/workoutPlans';
+import FastImage from 'react-native-fast-image';
 
 interface Props {
     exercise: PlanExercise;
@@ -16,10 +17,10 @@ export const ActiveExerciseView = memo(({ exercise, currentSetIndex, totalSets }
             {/* Exercise Image */}
             <View style={styles.imageSection}>
                 {exercise.image && (
-                    <Image
+                    <FastImage
                         source={exercise.image}
                         style={styles.exerciseImage}
-                        resizeMode="contain"
+                        resizeMode={FastImage.resizeMode.contain}
                     />
                 )}
             </View>

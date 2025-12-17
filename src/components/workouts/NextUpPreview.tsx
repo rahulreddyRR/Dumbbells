@@ -1,8 +1,9 @@
 import React, { memo } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Theme } from '../../theme';
 import { PlanExercise } from '../../data/workoutPlans';
+import FastImage from 'react-native-fast-image';
 
 interface Props {
     nextExercise?: PlanExercise;
@@ -23,10 +24,10 @@ export const NextUpPreview = memo(({ nextExercise, nextStepDetail, isLastStep }:
                     </View>
                     <View style={styles.nextExerciseRow}>
                         {nextExercise.image ? (
-                            <Image
+                            <FastImage
                                 source={nextExercise.image}
                                 style={styles.nextThumb}
-                                resizeMode="contain"
+                                resizeMode={FastImage.resizeMode.contain}
                             />
                         ) : (
                             <View style={[styles.nextThumb, { backgroundColor: Theme.colors.gray[800] }]} />

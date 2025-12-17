@@ -8,6 +8,7 @@ import { Button } from '../../components/common/Button';
 import { useUserProfileStore } from '../../store/userProfileStore';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { ConfirmationModal } from '../../components/common/ConfirmationModal';
+import analytics from '@react-native-firebase/analytics';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Onboarding'>;
 
@@ -33,7 +34,7 @@ export const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
         buttons: []
     });
 
-    const handleContinue = () => {
+    const handleContinue = async () => {
         if (!name.trim() || !age || !weight || !height) {
             setModalConfig({
                 title: 'Missing Details',
@@ -64,8 +65,24 @@ export const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
             age: ageNum,
             weight: weightNum,
             height: heightNum,
-
         });
+
+        // Firebase Analytics
+        try {
+            await analytics().setUserProperties({
+                age: age,
+                weight: weight,
+                height: height,
+            });
+            await analytics().logEvent('onboarding_complete', {
+                name: name.trim(),
+                age: ageNum,
+                weight: weightNum,
+                height: heightNum,
+            });
+        } catch (error) {
+            console.error('Analytics error:', error);
+        }
 
         // Complete Onboarding
         completeOnboarding();

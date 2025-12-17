@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "550595846006",
+    "project_id": "dumbbells-a2013",
+    "storage_bucket": "dumbbells-a2013.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550595846006:android:5701c6c21df12a1ab3e457",
+        "android_client_info": {
+          "package_name": "com.rahulreddy.dumbbells"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB272WI-JsMk2YKD3NTRQbx2hwDbmAny2w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
